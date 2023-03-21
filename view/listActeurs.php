@@ -18,14 +18,14 @@ $acteurs = $requete->fetchAll();
     </thead>
     <tbody>
         <?php
-        foreach ($acteurs as $a) {
+        foreach ($acteurs as $acteur) {
         ?>
             <tr>
-                <td><a href="index.php?action=detailActeur&id=<?= $a["id_personne"] ?>"><?= $a["titre"] ?></a></td>
-                <td><?= $a["nom"] ?></td>
-                <td><?= $a["prenom"] ?></td>
-                <td><?= $a["date_naissance"] ?></td>
-                <td><?= $a["sexe"] ?></td>
+                <td><acteur href="index.php?action=detailActeur&id=<?= $acteur["a.personne_id"] ?>"><?= $acteur["p.nom"].' '.$acteur["p.prenom"] ?></acteur></td>
+                <td><?= $acteur["p.nom"] ?></td>
+                <td><?= $acteur["p.prenom"] ?></td>
+                <td><?= $acteur["p.date_naissance"] ?></td>
+                <td><?= $acteur["p.sexe"] ?></td>
             </tr>
         <?php } ?>
     </tbody>

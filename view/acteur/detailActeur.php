@@ -4,7 +4,7 @@ ob_start();
 
 $acteur = $requete->fetch();
 
-$acteur['nom'].' '.$acteur['prenom'];
+$acteur['p.nom'];
 
 $titre = "Liste des acteurs";
 $titre_secondaire = "Liste secondaire des acteurs";

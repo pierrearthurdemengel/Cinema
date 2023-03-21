@@ -24,8 +24,12 @@ class CinemaController {
 
         $pdo = Connect::seConnecter();
         $requete = $pdo-> query("
-            SELECT nom, prenom, date_naissance, sexe
-            FROM personne
+            SELECT nom, 
+            prenom, 
+            date_naissance, 
+            sexe
+            FROM personne p
+            INNER JOIN acteurs ON p.in_personne = a.
         ");
         require "view/listActeurs.php";
     }
