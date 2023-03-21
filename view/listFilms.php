@@ -23,12 +23,12 @@ $films = $requete->fetchAll();
         foreach ($films as $film) {
         ?>
             <tr>
-                <td><?= $film["titre"] ?></td>
+                <td><a href="index.php?action=detailFilm&id=<?= $film["id_film"] ?>"><?= $film["titre"] ?></a></td>
                 <td><?= $film["annee"] ?></td>
                 <td><?= $film["duree_format"] ?></td>
                 <td><?= $film["synopsis"] ?></td>
                 <td><?= $film["note5"] ?></td>
-                <td><?= $film["lien_affiche"] ?></td>
+                <td><img src='<?= $film["lien_affiche"] ?>'></td>
             </tr>
         <?php } ?>
     </tbody>
