@@ -71,14 +71,15 @@ $film = $filmStatement->fetchAll();
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($film as $film) { ?>
+    <?php foreach ($film as $f) { ?>
       <tr>
-        <td><?php echo "<a href=$resultat->Adresse title="titre">$titre['titre']";</a> ?></td>
-        <td><?php echo "<a href=$resultat->Adresse title="annee">$annee['annee']";</a> ?></td>
-        <td><?php echo "<a href=$resultat->Adresse title="nom">$nom['nom'] . ' ' . $film['prenom']";</a> ?></td>
-        <td><?php echo "<a href=$resultat->Adresse title="temps_format">$temps_format['temps_format']";</a> ?></td>
+        <td><?php echo $f['titre']; ?></td>
+        <td><?php echo $f['annee']; ?></td>
+        <td><?php echo $f['nom'] . ' ' . $f['prenom']; ?></td>
+        <td><?php echo $f['temps_format']; ?></td>
       </tr>
     <?php } ?>
-  </tbody>
+</tbody>
+
 </table>
 </html>
