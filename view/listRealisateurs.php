@@ -1,25 +1,38 @@
-<?php 
+<?php
 
-listRealisateurs()
-{
-    $sqlQuery ='
-SELECT
-    f.titre,
-    f.annee,
-    TIME_FORMAT(SEC_TO_TIME(f.duree * 60), "%H:%i") as temps_format,
-    f.synopsis,
-    f.note5,
-    f.lien_affiche,
-    p.nom,
-    p.prenom,
-    p.sexe,
-    p.date_naissance
-FROM
-    film f
-    INNER JOIN realisateur r ON f.realisateur_id = r.id_realisateur
-    INNER JOIN personne p ON r.personne_id = p.id_personne
-WHERE
-    r.id_realisateur = $_GET["id"]';
-}
+ob_start();
+
+$realisateurs = $requete->fetchAll();
+
 
 ?>
+<p class="uk_label uk-label-warnign">Il y a <?= $requete->rowCount() ?> realisateurs</p>
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Date de naissance</th>
+            <th>Sexe</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($realisateurs as $r) {
+        ?>
+            <tr>
+                <td><?= $r["nom"] ?></td>
+                <td><?= $r["prenom"] ?></td>
+                <td><?= $r["date_naissance"] ?></td>
+                <td><?= $r["sexe"] ?></td>
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>
+
+<?php
+
+$titre = "Liste des realisateurs";
+$titre_secondaire = "Liste des realisateurs";
+$contenu =ob_get_clean();
+require "view/template.php";

@@ -1,6 +1,7 @@
 <?php
 
 use controller\CinemaController;
+use view\listRealisateurs.php;
 
 spl_autoload_register(function ($class_name) {
     include $class_name . '.php';
@@ -16,6 +17,7 @@ if(isset($_GET["action"])) {
             //Films
         case "listFilms" : $ctrlCinema-> listFilms(); break;
         case "listActeurs" : $ctrlCinema->listActeurs(); break;
+        case "listRealisateurs" : $ctrlCinema->listRealisateurs(); break;
     }
 }
 
@@ -35,5 +37,5 @@ try {
     die('Erreur : '.$e->getMessage());
 }
 
-
+echo listRealisateurs();
 echo $contenu;

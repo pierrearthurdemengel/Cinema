@@ -1,7 +1,7 @@
 <?php
 
 use controller\CinemaController;
-use view\listActeurs.php;
+use view\listFilms.php;
 
 spl_autoload_register(function ($class_name) {
     include $class_name . '.php';
@@ -14,7 +14,7 @@ $id=(isset($_GET["id"])) ? $_GET["id"] : null;
 
 if(isset($_GET["action"])) {
     switch ($_GET["action"]) {
-            //Acteurs
+            //Films
         case "listFilms" : $ctrlCinema-> listFilms(); break;
         case "listActeurs" : $ctrlCinema->listActeurs(); break;
         case "listRealisateurs" : $ctrlCinema->listRealisateurs(); break;
@@ -37,5 +37,5 @@ try {
     die('Erreur : '.$e->getMessage());
 }
 
-echo listActeurs();
+echo listFilms();
 echo $contenu;

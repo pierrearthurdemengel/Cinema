@@ -1,27 +1,38 @@
-<?php 
+<?php
 
-listFilms()
-{
-    $sqlQuery = 
-    'SELECT
-f.titre,
-f.annee,
-TIME_FORMAT(SEC_TO_TIME(f.duree * 60), "%H:%i") as temps_format,
-f.synopsis,
-f.note5,
-f.lien_affiche,
-p.nom,
-p.prenom,
-p.sexe,
-p.date_naissance
-FROM
-film f
-INNER JOIN acteur a ON f.acteur_id = a.id_acteur
-INNER JOIN personne p ON a.personne_id = p.id_personne
-WHERE
-a.id_acteur = $_GET["id"]';
-}
+ob_start();
 
+$acteurs = $requete->fetchAll();
 
 
 ?>
+<p class="uk_label uk-label-warnign">Il y a <?= $requete->rowCount() ?> acteurs</p>
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Date de naissance</th>
+            <th>Sexe</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($acteurs as $a) {
+        ?>
+            <tr>
+                <td><?= $a["nom"] ?></td>
+                <td><?= $a["prenom"] ?></td>
+                <td><?= $a["date_naissance"] ?></td>
+                <td><?= $a["sexe"] ?></td>
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>
+
+<?php
+
+$titre = "Liste des Acteurs";
+$titre_secondaire = "Liste des Acteurs";
+$contenu =ob_get_clean();
+require "view/template.php";
