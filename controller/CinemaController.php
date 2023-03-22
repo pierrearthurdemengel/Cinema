@@ -46,7 +46,15 @@ class CinemaController {
 
     public function detailFilm($id) {
         $pdo = Connect::seConnecter();
-        $requete = $pdo-> prepare("SELECT * FROM film WHERE id_film = :id");
+        $requete = $pdo-> prepare("SELECT id_film, titre, 
+        annee, 
+        TIME_FORMAT(SEC_TO_TIME(f.duree * 60), '%H:%i') as duree_format,
+        synopsis,
+        note5,
+        lien_affiche
+        FROM film f
+        WHERE id_film = :id");
+        
         $requete->execute(["id" => $id]);
         $film = $requete->fetch();
         // Vérifier si le film a été trouvé
