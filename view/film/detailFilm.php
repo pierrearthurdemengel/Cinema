@@ -2,7 +2,8 @@
 
 ob_start();
 
-echo "<h1>$film[titre]</h1>";
+echo "<h1>$filmInfos[titre]</h1>";
+echo "<h1>$filmCasting[nom]</h1>";
 ?>
 
 <table>
@@ -18,12 +19,33 @@ echo "<h1>$film[titre]</h1>";
     </thead>
     <tbody>
             <tr>
-                <td><?= $film['titre'] ?></td>
-                <td><?= $film['annee'] ?></td>
-                <td><?= $film['duree_format'] ?></td>
-                <td><?= $film['synopsis'] ?></td>
-                <td><?= $film['note5'] ?></td>
-                <td><img src='<?= $film["lien_affiche"] ?>'></td></td>
+                <td><?= $filmInfos['titre'] ?></td>
+                <td><?= $filmInfos['annee'] ?></td>
+                <td><?= $filmInfos['duree_format'] ?></td>
+                <td><?= $filmInfos['synopsis'] ?></td>
+                <td><?= $filmInfos['note5'] ?></td>
+                <td><img src='<?= $filmInfos["lien_affiche"] ?>'></td></td>
+            </tr>
+    </tbody>
+</table>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Sexe</th>
+            <th>Date de naissance</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td><?= $filmCasting['nom'] ?></td>
+                <td><?= $filmCasting['prenom'] ?></td>
+                <td><?= $filmCasting['sexe'] ?></td>
+                <td><?= $filmCasting['date_naissance'] ?></td>
+                <td><?= $filmCasting['role'] ?></td>
             </tr>
     </tbody>
 </table>

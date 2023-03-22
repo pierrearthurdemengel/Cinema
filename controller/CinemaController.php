@@ -53,15 +53,12 @@ class CinemaController {
     ");
         require "view/listRealisateurs.php";
     }
+
     public function detailFilm($id) {
+
         $pdo = Connect::seConnecter();
 
-        $requête1() {
-        $requete = $pdo-> prepare("")
-    }
-
-        
-        $requete2 = $pdo-> prepare("SELECT 
+        $requeteInfo = $pdo-> prepare("SELECT 
         id_film, titre, annee, 
         TIME_FORMAT(SEC_TO_TIME(f.duree * 60), '%H:%i') as duree_format,
         synopsis,
@@ -70,13 +67,29 @@ class CinemaController {
         FROM film f
         WHERE id_film = :id");
 
-        $requete->execute(["id" => $id]);
-        $film = $requete->fetch();
+        $requeteInfo->execute(["id" => $id]);
+        $filmInfos = $requeteInfo->fetch();
+
+        
+        $requeteCasting = $pdo-> prepare(" SELECT
+         p.nom, 
+         p.prenom,
+         p.sexe,
+         p.date_naissance,
+         r.role
+    FROM
+        acteur a
+        INNER JOIN personne p ON p.id_personne = a.personne_id
+        INNER JOIN casting c ON a.id_acteur = c.acteur_id
+        INNER JOIN film f ON c.film_id = f.id_film
+        INNER JOIN role r ON r.id_role = c.role_id
+    WHERE f.id_film = :id");
+
+        $requeteCasting->execute(["id" => $id]);
+        $filmCasting = $requeteCasting->fetch();
         require "view/film/detailFilm.php";
     }
 
-
-    }
     public function detailActeur($id) {
         $pdo = Connect::seConnecter();
         $requete = $pdo-> prepare("
