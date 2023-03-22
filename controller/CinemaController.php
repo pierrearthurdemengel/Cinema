@@ -6,7 +6,7 @@ use Model\Connect;
 class CinemaController {
     /*lister les films */
     public function listFilms() {
-
+        
         $pdo = Connect::seConnecter();
         $requete = $pdo-> query("
             SELECT id_film, titre, 
@@ -17,6 +17,7 @@ class CinemaController {
             lien_affiche
             FROM film f
         ");
+        $films = $requete->fetchAll();
         require "view/listFilms.php";
     }
 
@@ -38,8 +39,6 @@ class CinemaController {
 
 
 
-
-
     public function listRealisateurs() {
 
         $pdo = Connect::seConnecter();
@@ -56,7 +55,13 @@ class CinemaController {
     }
     public function detailFilm($id) {
         $pdo = Connect::seConnecter();
-        $requete = $pdo-> prepare("SELECT 
+
+        $requête1() {
+        $requete = $pdo-> prepare("")
+    }
+
+        
+        $requete2 = $pdo-> prepare("SELECT 
         id_film, titre, annee, 
         TIME_FORMAT(SEC_TO_TIME(f.duree * 60), '%H:%i') as duree_format,
         synopsis,
@@ -67,15 +72,26 @@ class CinemaController {
 
         $requete->execute(["id" => $id]);
         $film = $requete->fetch();
-      
         require "view/film/detailFilm.php";
     }
 
+
+    }
     public function detailActeur($id) {
         $pdo = Connect::seConnecter();
-        $requete = $pdo-> prepare("SELECT * FROM acteur WHERE id_acteur = :id");
-        
+        $requete = $pdo-> prepare("
+        SELECT 
+        nom, prenom, date_naissance, sexe, nom_role
+        FROM
+        acteur a
+        INNER JOIN personne p ON p.id_personne = a.personne_id
+        INNER JOIN casting c ON a.id_acteur = c.acteur_id
+        INNER JOIN film f ON c.film_id = f.id_film
+        INNER JOIN role r ON c.id_role = r.id_role
+        WHERE id_acteur = :id");
+    
         $requete->execute(["id" => $id]);
+        $acteur = $requete->fetch();
         require "view/acteur/detailActeur.php";
     }
 
@@ -83,6 +99,7 @@ class CinemaController {
         $pdo = Connect::seConnecter();
         $requete = $pdo-> prepare("SELECT * FROM realisateur WHERE id_realisateur = :id");
         $requete = $requete->execute(["id" => $id]);
+        
         require "view/realisateur/detailRealisateur.php";
     }
 }

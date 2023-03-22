@@ -2,7 +2,7 @@
 
 ob_start();
 
-$films = $requete->fetchAll();
+
 
 
 ?>

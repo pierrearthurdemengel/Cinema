@@ -2,8 +2,6 @@
 
 ob_start();
 
-
-
 echo "<h1>$film[titre]</h1>";
 ?>
 
@@ -11,7 +9,7 @@ echo "<h1>$film[titre]</h1>";
     <thead>
         <tr>
             <th>Titre</th>
-            <th>Anne</th>
+            <th>Année</th>
             <th>Durée</th>
             <th>Synopsis</th>
             <th>note /5</th>
