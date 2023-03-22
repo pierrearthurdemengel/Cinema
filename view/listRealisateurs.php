@@ -31,7 +31,6 @@ $realisateurs = $requete->fetchAll();
 </table>
 
 <?php
-
 $titre = "Liste des realisateurs";
 $titre_secondaire = "Liste des realisateurs";
 $contenu =ob_get_clean();
