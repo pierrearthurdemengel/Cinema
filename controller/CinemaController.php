@@ -48,20 +48,27 @@ class CinemaController {
         $pdo = Connect::seConnecter();
         $requete = $pdo-> prepare("SELECT * FROM film WHERE id_film = :id");
         $requete->execute(["id" => $id]);
-       
+        $film = $requete->fetch();
+        // Vérifier si le film a été trouvé
+        if(!$film) {
+            // Afficher un message d'erreur ou rediriger vers une page d'erreur
+            die("Le film n'a pas été trouvé.");
+        }
+        
         require "view/film/detailFilm.php";
+        echo "test";
     }
 
     public function detailActeur($id) {
         $pdo = Connect::seConnecter();
-        $requete = $pdo-> prepare("SELECT * FROM acteur WHERE id_acteur = id");
+        $requete = $pdo-> prepare("SELECT * FROM acteur WHERE id_acteur = :id");
         $requete->execute(["id" => $id]);
         require "view/acteur/detailActeur.php";
     }
 
     public function detailRealisateur($id) {
         $pdo = Connect::seConnecter();
-        $requete = $pdo-> prepare("SELECT * FROM realisateur WHERE id_realisateur = id");
+        $requete = $pdo-> prepare("SELECT * FROM realisateur WHERE id_realisateur = :id");
         $requete = $requete->execute(["id" => $id]);
         require "view/realisateur/detailRealisateur.php";
     }
