@@ -78,30 +78,40 @@ class CinemaController {
        INNER JOIN casting c ON a.id_acteur = c.acteur_id
        INNER JOIN film f ON c.film_id = f.id_film
        INNER JOIN role r ON r.id_role = c.role_id
-   WHERE f.id_film = :id");
+   WHERE a.id_film = :id");
 
         $requeteCasting->execute(["id" => $id]);
         require "view/film/detailFilm.php";
     }
 
-    public function detailActeur($id) {
+    public function detailActeur(int $id) {
         $pdo = Connect::seConnecter();
         $requete = $pdo-> prepare("
-        SELECT 
-        nom, prenom, date_naissance, sexe, nom_role
-        FROM
-        acteur a
-        INNER JOIN personne p ON p.id_personne = a.personne_id
-        INNER JOIN casting c ON a.id_acteur = c.acteur_id
-        INNER JOIN film f ON c.film_id = f.id_film
-        INNER JOIN role r ON c.id_role = r.id_role
-        WHERE id_acteur = :id");
+        SELECT a.id_acteur, CONCAT(p.prenom, ' ', p.nom) AS acteur, CONCAT(UPPER(LEFT(p.sexe, 1)), SUBSTRING(p.sexe, 2)) AS sexe, DATE_FORMAT(p.date_naissance, '%d-%m-%Y') AS date_naissance 
+FROM acteur a 
+INNER JOIN personne p ON p.id_personne = a.personne_id 
+WHERE a.id_acteur = :id
+    ");
     
         $requete->execute(["id" => $id]);
-        $acteur = $requete->fetch();
+
+        $filmographie = $pdo->prepare("
+        SELECT f.id_film AS id_film, 
+        titre, nom_role, annee
+                    FROM casting c
+                    INNER JOIN film f ON f.id_film = c.film_id
+                    INNER JOIN role r ON r.id_role = c.role_id
+                    WHERE acteur_id = :id
+                    ORDER BY annee DESC
+        ");
+
+
+
+        $filmographie->execute(["id" => $id]);
+
         require "view/acteur/detailActeur.php";
     }
-
+    
     public function detailRealisateur($id) {
         $pdo = Connect::seConnecter();
         $requete = $pdo-> prepare("SELECT * FROM realisateur WHERE id_realisateur = :id");
