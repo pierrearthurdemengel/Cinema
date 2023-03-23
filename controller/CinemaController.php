@@ -71,19 +71,19 @@ class CinemaController {
         $filmInfos = $requeteInfo->fetch();
 
         
-        $requeteCasting = $pdo-> prepare(" SELECT
-         p.nom, 
-         p.prenom,
-         p.sexe,
-         p.date_naissance,
-         r.role
-    FROM
-        acteur a
-        INNER JOIN personne p ON p.id_personne = a.personne_id
-        INNER JOIN casting c ON a.id_acteur = c.acteur_id
-        INNER JOIN film f ON c.film_id = f.id_film
-        INNER JOIN role r ON r.id_role = c.role_id
-    WHERE f.id_film = :id");
+        $requeteCasting = $pdo-> prepare("SELECT
+        p.nom, 
+        p.prenom,
+        p.sexe,
+        p.date_naissance,
+        r.nom_role
+   FROM
+       acteur a
+       INNER JOIN personne p ON p.id_personne = a.personne_id
+       INNER JOIN casting c ON a.id_acteur = c.acteur_id
+       INNER JOIN film f ON c.film_id = f.id_film
+       INNER JOIN role r ON r.id_role = c.role_id
+   WHERE f.id_film = :id");
 
         $requeteCasting->execute(["id" => $id]);
         $filmCasting = $requeteCasting->fetch();

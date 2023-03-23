@@ -45,7 +45,7 @@ echo "<h1>$filmCasting[nom]</h1>";
                 <td><?= $filmCasting['prenom'] ?></td>
                 <td><?= $filmCasting['sexe'] ?></td>
                 <td><?= $filmCasting['date_naissance'] ?></td>
-                <td><?= $filmCasting['role'] ?></td>
+                <td><?= $filmCasting['nom_role'] ?></td>
             </tr>
     </tbody>
 </table>
