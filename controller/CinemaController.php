@@ -55,9 +55,7 @@ class CinemaController {
     }
 
     public function detailFilm($id) {
-
         $pdo = Connect::seConnecter();
-
         $requeteInfo = $pdo-> prepare("SELECT 
         id_film, titre, annee, 
         TIME_FORMAT(SEC_TO_TIME(f.duree * 60), '%H:%i') as duree_format,
@@ -66,11 +64,8 @@ class CinemaController {
         lien_affiche
         FROM film f
         WHERE id_film = :id");
-
         $requeteInfo->execute(["id" => $id]);
-        $filmInfos = $requeteInfo->fetch();
 
-        
         $requeteCasting = $pdo-> prepare("SELECT
         p.nom, 
         p.prenom,
@@ -86,7 +81,6 @@ class CinemaController {
    WHERE f.id_film = :id");
 
         $requeteCasting->execute(["id" => $id]);
-        $filmCasting = $requeteCasting->fetch();
         require "view/film/detailFilm.php";
     }
 

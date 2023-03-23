@@ -1,11 +1,17 @@
 <?php
-
 ob_start();
+$filmInfos = $requeteInfo->fetch();
+$filmCasting = $requeteCasting->fetchAll();
 
-echo "<h1>$filmInfos[titre]</h1>";
-echo "<h1>$filmCasting[nom]</h1>";
+echo "<h1>" . $filmInfos['titre'] . "</h1>";
+echo "<h1>" . $filmCasting[0]['nom'] . "</h1>";
 ?>
 
+<p> 
+    Réalisateur : <a href="index.php?action=detailRealisateur&id=<?= $filmInfos["id_realisateur"] ?>"><?php echo $filmInfos["realisateur"]; ?></a><br>
+    Durée : <?= $filmInfos["duree_format"] ?><br>
+    Année de sortie : <?= $filmInfos["annee"] ?><br>
+</p>
 <table>
     <thead>
         <tr>
@@ -18,17 +24,16 @@ echo "<h1>$filmCasting[nom]</h1>";
         </tr>
     </thead>
     <tbody>
-            <tr>
-                <td><?= $filmInfos['titre'] ?></td>
-                <td><?= $filmInfos['annee'] ?></td>
-                <td><?= $filmInfos['duree_format'] ?></td>
-                <td><?= $filmInfos['synopsis'] ?></td>
-                <td><?= $filmInfos['note5'] ?></td>
-                <td><img src='<?= $filmInfos["lien_affiche"] ?>'></td></td>
-            </tr>
+        <tr>
+            <td><?= $filmInfos['titre'] ?></td>
+            <td><?= $filmInfos['annee'] ?></td>
+            <td><?= $filmInfos['duree_format'] ?></td>
+            <td><?= $filmInfos['synopsis'] ?></td>
+            <td><?= $filmInfos['note5'] ?></td>
+            <td><img src='<?= $filmInfos["lien_affiche"] ?>'></td>
+        </tr>
     </tbody>
 </table>
-
 <table>
     <thead>
         <tr>
@@ -40,16 +45,17 @@ echo "<h1>$filmCasting[nom]</h1>";
         </tr>
     </thead>
     <tbody>
+        <?php foreach ($filmCasting as $cast) { ?>
             <tr>
-                <td><?= $filmCasting['nom'] ?></td>
-                <td><?= $filmCasting['prenom'] ?></td>
-                <td><?= $filmCasting['sexe'] ?></td>
-                <td><?= $filmCasting['date_naissance'] ?></td>
-                <td><?= $filmCasting['nom_role'] ?></td>
+                <td><a href="index.php?action=detailActeur&id=<?= $cast["id_acteur"] ?>"><?= $cast['nom'] ?></a></td>
+                <td><?= $cast['prenom'] ?></td>
+                <td><?= $cast['sexe'] ?></td>
+                <td><?= $cast['date_naissance'] ?></td>
+                <td><?= $cast['nom_role'] ?></td>
             </tr>
+        <?php } ?>
     </tbody>
 </table>
-
 <?php
 $titre = "Liste des Films";
 $titre_secondaire = "Liste secondaire des Films";
