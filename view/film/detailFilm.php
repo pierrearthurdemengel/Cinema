@@ -2,7 +2,6 @@
 ob_start();
 $filmInfos = $requeteInfo->fetch();
 $filmCasting = $requeteCasting->fetchAll();
-
 echo "<h1>" . $filmInfos['titre'] . "</h1>";
 echo "<h1>" . $filmCasting[0]['nom'] . "</h1>";
 ?>
@@ -56,6 +55,7 @@ echo "<h1>" . $filmCasting[0]['nom'] . "</h1>";
         <?php } ?>
     </tbody>
 </table>
+
 <?php
 $titre = "Liste des Films";
 $titre_secondaire = "Liste secondaire des Films";
