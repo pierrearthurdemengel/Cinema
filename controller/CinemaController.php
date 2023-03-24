@@ -56,17 +56,20 @@ class CinemaController {
 
     public function detailFilm($id) {
         $pdo = Connect::seConnecter();
-        $requeteInfo = $pdo-> prepare("SELECT 
+        $requeteInfo = $pdo-> prepare("
+        SELECT 
         id_film, titre, annee, 
         TIME_FORMAT(SEC_TO_TIME(f.duree * 60), '%H:%i') as duree_format,
         synopsis,
         note5,
         lien_affiche
         FROM film f
-        WHERE id_film = :id");
+        WHERE id_film = :id
+        ");
         $requeteInfo->execute(["id" => $id]);
 
-        $requeteCasting = $pdo-> prepare("SELECT
+        $requeteCasting = $pdo-> prepare("
+        SELECT
         p.nom, 
         p.prenom,
         p.sexe,
@@ -78,7 +81,8 @@ class CinemaController {
        INNER JOIN casting c ON a.id_acteur = c.acteur_id
        INNER JOIN film f ON c.film_id = f.id_film
        INNER JOIN role r ON r.id_role = c.role_id
-   WHERE a.id_film = :id");
+       WHERE f.id_film = :id
+   ");
 
         $requeteCasting->execute(["id" => $id]);
         require "view/film/detailFilm.php";

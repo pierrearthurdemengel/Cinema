@@ -46,7 +46,7 @@ echo "<h1>" . $filmCasting[0]['nom'] . "</h1>";
     <tbody>
         <?php foreach ($filmCasting as $cast) { ?>
             <tr>
-                <td><a href="index.php?action=detailActeur&id=<?= $cast["id_acteur"] ?>"><?= $cast['nom'] ?></a></td>
+                <td><a href="index.php?action=detailActeur&id=<?= $cast["id_acteur"] ?>"><?php echo $cast['nom'] ?></a></td>
                 <td><?= $cast['prenom'] ?></td>
                 <td><?= $cast['sexe'] ?></td>
                 <td><?= $cast['date_naissance'] ?></td>
