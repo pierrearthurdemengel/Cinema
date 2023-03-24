@@ -87,7 +87,9 @@ class CinemaController {
     public function detailActeur(int $id) {
         $pdo = Connect::seConnecter();
         $requete = $pdo-> prepare("
-        SELECT a.id_acteur, CONCAT(p.prenom, ' ', p.nom) AS acteur, 
+        SELECT 
+        a.id_acteur, 
+        CONCAT(p.prenom, ' ', p.nom) AS acteur, 
         CONCAT(UPPER(LEFT(p.sexe, 1)), SUBSTRING(p.sexe, 2)) AS sexe,
         DATE_FORMAT(p.date_naissance, '%d-%m-%Y') AS date_naissance 
         FROM acteur a 
@@ -97,19 +99,24 @@ class CinemaController {
     
         $requete->execute(["id" => $id]);
 
-        $filmographie = $pdo->prepare("
-        SELECT f.id_film AS id_film, 
-        titre, nom_role, annee
-                    FROM casting c
-                    INNER JOIN film f ON f.id_film = c.film_id
-                    INNER JOIN role r ON r.id_role = c.role_id
-                    WHERE acteur_id = :id
-                    ORDER BY annee DESC
+        $requetefilmographie = $pdo->prepare("
+        SELECT 
+		  	f.id_film AS id_film, 
+         	f.titre AS titre, 
+		   	r.nom_role AS role, 
+		  	f.annee AS annee
+         FROM 
+			casting c
+         INNER JOIN film f ON f.id_film = c.film_id
+         INNER JOIN role r ON r.id_role = c.role_id
+         WHERE 
+			acteur_id = :id
+         ORDER BY annee DESC
         ");
 
 
 
-        $filmographie->execute(["id" => $id]);
+        $requetefilmographie->execute(["id" => $id]);
 
         require "view/acteur/detailActeur.php";
     }
