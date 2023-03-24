@@ -4,7 +4,7 @@ ob_start();
 $realisateur = $requeteReal->fetch();
 $listFilmReal = $requetefilmReal->fetchAll();
 echo "<h1>".$realisateur['realisateur']."</h1>";
-echo "<h1>".$listFilmReal[0]['realisateur']."</h1>";
+echo "<h1>".$listFilmReal[:id]['titre']."</h1>";
 
 ?>
 
@@ -37,10 +37,10 @@ echo "<h1>".$listFilmReal[0]['realisateur']."</h1>";
     </thead>
     <tbody>
         <tr>
-            <td><?= $listFilmReal['id_film'] ?></td>
-            <td><?= $listFilmReal['titre'] ?></td>
-            <td><?= $listFilmReal['role'] ?></td>
-            <td><?= $listFilmReal['annee'] ?></td>
+            <td><?= $listFilmReal[0]['id_film'] ?></td>
+            <td><?= $listFilmReal[0]['titre'] ?></td>
+            <td><?= $listFilmReal[0]['role'] ?></td>
+            <td><?= $listFilmReal[0]['annee'] ?></td>
         </tr>
     </tbody>
 </table>

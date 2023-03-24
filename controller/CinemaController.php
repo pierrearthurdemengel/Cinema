@@ -139,7 +139,7 @@ class CinemaController {
         WHERE r.id_realisateur = :id
     ");
     // 1ere SQL ok
-    
+        
         $requeteReal->execute(["id" => $id]);
 
         $requetefilmReal = $pdo->prepare("
