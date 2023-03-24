@@ -42,10 +42,11 @@ class CinemaController {
     public function listRealisateurs() {
 
         $pdo = Connect::seConnecter();
-        $requete = $pdo->query("SELECT 
+        $requete = $pdo->query("
+    SELECT 
         nom, prenom, date_naissance, sexe
     FROM
-    realisateur r
+        realisateur r
     INNER JOIN film f ON r.id_realisateur = f.realisateur_id
     INNER JOIN personne p ON r.personne_id = p.id_personne
     GROUP BY r.id_realisateur
@@ -53,6 +54,8 @@ class CinemaController {
     ");
         require "view/listRealisateurs.php";
     }
+
+    
 
     public function detailFilm($id) {
         $pdo = Connect::seConnecter();
@@ -70,8 +73,8 @@ class CinemaController {
 
         $requeteCasting = $pdo-> prepare("
         SELECT
-        p.nom, 
-        p.prenom,
+        id_acteur,
+        CONCAT(p.prenom, ' ', p.nom) AS acteur,
         p.sexe,
         p.date_naissance,
         r.nom_role
@@ -118,18 +121,45 @@ class CinemaController {
          ORDER BY annee DESC
         ");
 
-
-
         $requetefilmographie->execute(["id" => $id]);
 
         require "view/acteur/detailActeur.php";
     }
     
-    public function detailRealisateur($id) {
+    public function detailRealisateur(int $id) {
         $pdo = Connect::seConnecter();
-        $requete = $pdo-> prepare("SELECT * FROM realisateur WHERE id_realisateur = :id");
-        $requete = $requete->execute(["id" => $id]);
-        
+        $requeteReal = $pdo->prepare("
+        SELECT 
+        r.id_realisateur, 
+        CONCAT(p.prenom, ' ', p.nom) AS realisateur, 
+        CONCAT(UPPER(LEFT(p.sexe, 1)), SUBSTRING(p.sexe, 2)) AS sexe,
+        DATE_FORMAT(p.date_naissance, '%d-%m-%Y') AS date_naissance 
+        FROM realisateur r 
+        INNER JOIN personne p ON p.id_personne = r.personne_id
+        WHERE r.id_realisateur = :id
+    ");
+    // 1ere SQL ok
+    
+        $requeteReal->execute(["id" => $id]);
+
+        $requetefilmReal = $pdo->prepare("
+        SELECT 
+		  	f.id_film AS id_film, 
+         	f.titre AS titre, 
+		   	r.nom_role AS role, 
+		  	f.annee AS annee
+         FROM 
+			casting c
+         INNER JOIN film f ON f.id_film = c.film_id
+         INNER JOIN role r ON r.id_role = c.role_id
+         WHERE 
+			realisateur_id = :id
+         ORDER BY annee DESC
+        ");
+        // 2eme SQL ok
+
+        $requetefilmReal->execute(["id" => $id]);
+
         require "view/realisateur/detailRealisateur.php";
     }
 }
