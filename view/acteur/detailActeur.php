@@ -10,16 +10,14 @@ echo "<h1>$acteur[nom]</h1>";
 <table>
     <thead>
         <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
+            <th>Acteur</th>
             <th>Date de naissance</th>
             <th>sexe</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td><?= $acteur['nom'] ?></td>
-            <td><?= $acteur['prenom'] ?></td>
+            <td><?= $acteur['acteur'] ?></td>
             <td><?= $acteur['date_naissance'] ?></td>
             <td><?= $acteur['sexe'] ?></td>
         </tr>

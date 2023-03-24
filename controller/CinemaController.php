@@ -87,10 +87,12 @@ class CinemaController {
     public function detailActeur(int $id) {
         $pdo = Connect::seConnecter();
         $requete = $pdo-> prepare("
-        SELECT a.id_acteur, CONCAT(p.prenom, ' ', p.nom) AS acteur, CONCAT(UPPER(LEFT(p.sexe, 1)), SUBSTRING(p.sexe, 2)) AS sexe, DATE_FORMAT(p.date_naissance, '%d-%m-%Y') AS date_naissance 
-FROM acteur a 
-INNER JOIN personne p ON p.id_personne = a.personne_id 
-WHERE a.id_acteur = :id
+        SELECT a.id_acteur, CONCAT(p.prenom, ' ', p.nom) AS acteur, 
+        CONCAT(UPPER(LEFT(p.sexe, 1)), SUBSTRING(p.sexe, 2)) AS sexe,
+        DATE_FORMAT(p.date_naissance, '%d-%m-%Y') AS date_naissance 
+        FROM acteur a 
+        INNER JOIN personne p ON p.id_personne = a.personne_id 
+        WHERE a.id_acteur = :id
     ");
     
         $requete->execute(["id" => $id]);
