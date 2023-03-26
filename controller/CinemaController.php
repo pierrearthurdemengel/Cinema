@@ -20,6 +20,19 @@ class CinemaController {
         $films = $requete->fetchAll();
         require "view/listFilms.php";
     }
+    public function addFilm() {
+        $pdo = Connect::seConnecter();
+        $requeteaddFilm = $pdo->prepare('INSERT INTO contact VALUES (NULL, :titre, :annee, :duree, :synopsis, :note5, :lien_affiche');
+        $pdoStat->bindValue(':titre', $_POST['lastName'], PDO::PARAM_STR);
+        $pdoStat->bindValue(':annee', $_POST['annee'], PDO::PARAM_STR);
+        $pdoStat->bindValue(':duree', $_POST['duree_format'], PDO::PARAM_STR);
+        $pdoStat->bindValue(':synopsis', $_POST['synopsis'], PDO::PARAM_STR);
+        $pdoStat->bindValue(':note5', $_POST['note5'], PDO::PARAM_STR);
+        $pdoStat->bindValue(':lien_affiche', $_POST['lien_affiche'], PDO::PARAM_STR);
+        $ajouterFilm = $requeteaddFilm->fetch();
+        require "view/listFilms.php";
+
+    }
 
     public function listActeurs() {
 
@@ -37,8 +50,9 @@ class CinemaController {
         require "view/listActeurs.php";
     }
 
-
-
+    
+    
+    
     public function listRealisateurs() {
 
         $pdo = Connect::seConnecter();
