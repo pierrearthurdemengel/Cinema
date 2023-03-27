@@ -2,11 +2,11 @@
 
 ob_start();
 
-$realisateurs = $requete->fetchAll();
+$realisateurs = $requetelistRealisateurs->fetchAll();
 
 
 ?>
-<p class="uk_label uk-label-warnign">Il y a <?= $requete->rowCount() ?> realisateurs</p>
+<p class="uk_label uk-label-warnign">Il y a <?= $requetelistRealisateurs->rowCount() ?> realisateurs</p>
 <table>
     <thead>
         <tr>

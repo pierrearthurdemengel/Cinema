@@ -2,11 +2,10 @@
 
 ob_start();
 
-$acteurs = $requete->fetchAll();
-
+$acteurs = $requetelistActeurs->fetchAll();
 ?>
 
-<p class="uk_label uk-label-warning">Il y a <?= $requete->rowCount() ?> acteurs</p>
+<p class="uk_label uk-label-warning">Il y a <?= $requetelistActeurs->rowCount() ?> acteurs</p>
 <table>
     <thead>
         <tr>
@@ -21,16 +20,15 @@ $acteurs = $requete->fetchAll();
         foreach ($acteurs as $acteur) {
         ?>
             <tr>
-                <td><a href="index.php?action=detailActeur&id=<?= $acteur["personne_id"] ?>"><?= $acteur["nom"].' '.$acteur["prenom"] ?></a></td>
-                <td><?= $acteur["nom"] ?></td>
-                <td><?= $acteur["prenom"] ?></td>
-                <td><?= $acteur["date_naissance"] ?></td>
-                <td><?= $acteur["sexe"] ?></td>
+                <td><a href="index.php?action=detailActeur&id=<?= $acteur["id_acteur"] ?>"><?= $acteur["nom"].' '.$acteur["prenom"] ?></a></td>
+                <td><?= $acteur['nom'] ?></td>
+                <td><?= $acteur['prenom'] ?></td>
+                <td><?= $acteur['date_naissance'] ?></td>
+                <td><?= $acteur['sexe'] ?></td>
             </tr>
         <?php } ?>
     </tbody>
 </table>
-
 
 <?php
 $titre = "Liste des Acteurs";

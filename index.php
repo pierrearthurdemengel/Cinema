@@ -17,9 +17,16 @@ if(isset($_GET["action"])) {
         case "listFilms" : $ctrlCinema-> listFilms(); break;
         case "listActeurs" : $ctrlCinema->listActeurs(); break;
         case "listRealisateurs" : $ctrlCinema->listRealisateurs(); break;
+        case "listGenres" : $ctrlCinema->listGenres(); break;
+        case "listPersonnes" : $ctrlCinema->listPersonnes(); break;
+        case "listCastings" : $ctrlCinema->listCastings(); break;
         case "detailFilm" : if (isset($_GET["id"])) { $ctrlCinema->detailFilm($id);} break;
         case "detailActeur" : if (isset($_GET["id"])) { $ctrlCinema->detailActeur($id); break;}
         case "detailRealisateur" : if (isset($_GET["id"])) { $ctrlCinema->detailRealisateur($id); break;}
+        case "detailGenre" : if (isset($_GET["id"])) { $ctrlCinema->detailGenre($id);} break;
+        case "detailPersonne" : if (isset($_GET["id"])) { $ctrlCinema->detailPersonne($id); break;}
+        case "detailCasting" : if (isset($_GET["id"])) { $ctrlCinema->detailCasting($id); break;}
+
     }
 }
 else {

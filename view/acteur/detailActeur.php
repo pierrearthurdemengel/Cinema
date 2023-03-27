@@ -1,9 +1,8 @@
 <?php
 ob_start();
-$acteur = $requete->fetch();
+$acteur = $requeteDetailActeur->fetch();
 $filmographie = $requetefilmographie->fetchAll();
 echo "<h1>$acteur[acteur]</h1>";
-echo "<h1>". $filmographie[0]['titre']. "</h1>";
 ?>
 
 <!-- <p>
@@ -34,11 +33,15 @@ echo "<h1>". $filmographie[0]['titre']. "</h1>";
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td><?= $filmographie[0]['titre'] ?></td>
-            <td><?= $filmographie[0]['role'] ?></td>
-            <td><?= $filmographie[0]['annee'] ?></td>
-        </tr>
+        <?php
+            foreach($filmographie as $filmo) { ?>
+            <tr>
+                <td><?= $filmo['titre'] ?></td>
+                <td><?= $filmo['role'] ?></td>
+                <td><?= $filmo['annee'] ?></td>
+            </tr>
+            <?php }
+        ?>
     </tbody>
 </table>
 

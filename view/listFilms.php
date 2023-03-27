@@ -2,12 +2,12 @@
 
 ob_start();
 
-
+$films = $requetelistFilms->fetchAll();
 
 
 ?>
 
-<!-- <p class="uk_label uk-label-warnign">Il y a <?= $requete->rowCount() ?> films</p> -->
+<!-- <p class="uk_label uk-label-warnign">Il y a <?= $requetelistFilms->rowCount() ?> films</p> -->
 <table>
     <thead>
         <tr>
@@ -48,7 +48,7 @@ ob_start();
             </p>
             <p>
                 <label for "duree_format"> durée du film</label>
-                <input id="duree_format" type="DATETIME" name="duree">
+                <input id="duree_format" type="number" name="duree">
             </p>
             <p>
                 <label for "synopsis"> synopsis </label>
@@ -56,11 +56,11 @@ ob_start();
             </p>
             <p>
                 <label for "note5"> note /5 </label>
-                <input id="note5" type="int" name="note5">
+                <input id="note5" type="number" name="note5">
             </p>
             <p>
                 <label for "lien_affiche"> affiche </label>
-                <input id="lien_affiche" type="text" name="lien_affiche">
+                <input id="lien_affiche" type="url" name="lien_affiche">
             </p>
             <p><input type="submit" value="Enregistrer"></p>
 </form> 

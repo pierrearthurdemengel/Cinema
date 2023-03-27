@@ -17,7 +17,4 @@ abstract class Connect {
         }
     }
 
-   
-
-
 ?>
