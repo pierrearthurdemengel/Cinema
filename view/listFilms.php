@@ -6,7 +6,8 @@ ob_start();
 
 
 ?>
-<p class="uk_label uk-label-warnign">Il y a <?= $requete->rowCount() ?> films</p>
+
+<!-- <p class="uk_label uk-label-warnign">Il y a <?= $requete->rowCount() ?> films</p> -->
 <table>
     <thead>
         <tr>
@@ -39,15 +40,15 @@ ob_start();
 
             <p>
                 <label for "titre"> Titre </label>
-                <input id="titre" type="text" name="firstTitre">
+                <input id="titre" type="text" name="Titre">
             </p>
             <p>
                 <label for "annee"> annee </label>
-                <input id="annee" type="DATE" name="firstAnnee">
+                <input id="annee" type="DATE" name="Annee">
             </p>
             <p>
                 <label for "duree_format"> durée du film</label>
-                <input id="duree_format" type="DATETIME" name="duree_format">
+                <input id="duree_format" type="DATETIME" name="duree">
             </p>
             <p>
                 <label for "synopsis"> synopsis </label>
