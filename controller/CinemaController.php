@@ -50,8 +50,11 @@ class CinemaController
 
         $pdo = Connect::seConnecter();
         $requetelistRealisateurs = $pdo->query("
-    SELECT 
-        nom, prenom, date_naissance, sexe
+    SELECT
+        CONCAT(p.prenom, ' ', p.nom) AS realisateur,
+        date_naissance, 
+        sexe,
+        id_personne
     FROM
         realisateur r
     INNER JOIN film f ON r.id_realisateur = f.realisateur_id
@@ -158,7 +161,7 @@ INNER JOIN role r ON r.id_role = c.role_id
 
         $requeteCasting = $pdo->prepare("
         SELECT
-        id_acteur,
+        a.id_acteur AS id_acteur,
         CONCAT(p.prenom, ' ', p.nom) AS acteur,
         p.sexe,
         p.date_naissance,

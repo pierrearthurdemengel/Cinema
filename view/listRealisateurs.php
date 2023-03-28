@@ -10,8 +10,7 @@ $realisateurs = $requetelistRealisateurs->fetchAll();
 <table>
     <thead>
         <tr>
-            <th>Nom</th>
-            <th>Prenom</th>
+            <th>Réalisateur</th>
             <th>Date de naissance</th>
             <th>Sexe</th>
         </tr>
@@ -21,8 +20,7 @@ $realisateurs = $requetelistRealisateurs->fetchAll();
         foreach ($realisateurs as $r) {
         ?>
             <tr>
-                <td><?= $r["nom"] ?></td>
-                <td><?= $r["prenom"] ?></td>
+                <td><a href="index.php?action=detailRealisateur&id=<?= $r["id_personne"] ?>"><?= $r["realisateur"] ?></a></td>
                 <td><?= $r["date_naissance"] ?></td>
                 <td><?= $r["sexe"] ?></td>
             </tr>

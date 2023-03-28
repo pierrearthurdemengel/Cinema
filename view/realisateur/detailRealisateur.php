@@ -4,7 +4,7 @@ ob_start();
 $realisateur = $requeteReal->fetch();
 $listFilmReal = $requetefilmReal->fetchAll();
 echo "<h1>".$realisateur['realisateur']."</h1>";
-echo "<h1>".$listFilmReal[0]['titre']."</h1>";
+echo "<h1>".$listFilmReal[$id]['titre']."</h1>";
 
 ?>
 
