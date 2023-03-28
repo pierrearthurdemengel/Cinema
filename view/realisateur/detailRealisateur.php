@@ -37,10 +37,10 @@ echo "<h1>".$listFilmReal[0]['titre']."</h1>";
     </thead>
     <tbody>
         <tr>
-            <td><?= $listFilmReal[0]['id_film'] ?></td>
-            <td><?= $listFilmReal[0]['titre'] ?></td>
-            <td><?= $listFilmReal[0]['role'] ?></td>
-            <td><?= $listFilmReal[0]['annee'] ?></td>
+            <td><?= $listFilmReal[$id]['id_film'] ?></td>
+            <td><?= $listFilmReal[$id]['titre'] ?></td>
+            <td><?= $listFilmReal[$id]['role'] ?></td>
+            <td><?= $listFilmReal[$id]['annee'] ?></td>
         </tr>
     </tbody>
 </table>
