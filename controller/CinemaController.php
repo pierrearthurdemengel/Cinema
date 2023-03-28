@@ -233,18 +233,10 @@ INNER JOIN role r ON r.id_role = c.role_id
         $requeteReal->execute(["id" => $id]);
 
         $requetefilmReal = $pdo->prepare("
-        SELECT 
-		  	f.id_film AS id_film, 
-         	f.titre AS titre, 
-		   	r.nom_role AS role, 
-		  	f.annee AS annee
-         FROM 
-			casting c
-         INNER JOIN film f ON f.id_film = c.film_id
-         INNER JOIN role r ON r.id_role = c.role_id
-         WHERE 
-			realisateur_id = :id
-         ORDER BY annee DESC
+        SELECT titre, annee
+        FROM film
+        WHERE realisateur_id = :id
+        ORDER BY annee DESC
         ");
         // 2eme SQL ok
 
