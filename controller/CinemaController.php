@@ -149,13 +149,15 @@ INNER JOIN role r ON r.id_role = c.role_id
         $pdo = Connect::seConnecter();
         $requeteInfo = $pdo->prepare("
         SELECT 
-        id_film, titre, annee, 
-        TIME_FORMAT(SEC_TO_TIME(f.duree * 60), '%H:%i') as duree_format,
-        synopsis,
-        note5,
-        lien_affiche
+            f.id_film, 
+            f.titre, 
+            f.annee, 
+            TIME_FORMAT(SEC_TO_TIME(f.duree * 60), '%H:%i') AS duree_format,
+            f.synopsis, f.note5, f.lien_affiche,
+            p.id_personne AS id_realisateur, p.nom AS realisateur
         FROM film f
-        WHERE id_film = :id
+        INNER JOIN personne p ON f.realisateur_id = p.id_personne
+        WHERE f.id_film = :id
         ");
         $requeteInfo->execute(["id" => $id]);
 

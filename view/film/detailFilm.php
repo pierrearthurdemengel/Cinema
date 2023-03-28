@@ -2,12 +2,12 @@
 ob_start();
 $filmInfos = $requeteInfo->fetch();
 $filmCasting = $requeteCasting->fetchAll();
+
 echo "<h1>" . $filmInfos['titre'] . "</h1>";
 echo "<h1>" . $filmCasting[$id]['acteur'] . "</h1>";
 ?>
 
 <p> 
-    Réalisateur : <a href="index.php?action=detailRealisateur&id=<?= $filmInfos["id_realisateur"] ?>"><?php echo $filmInfos["realisateur"]; ?></a><br>
     Durée : <?= $filmInfos["duree_format"] ?><br>
     Année de sortie : <?= $filmInfos["annee"] ?><br>
 </p>
@@ -20,6 +20,7 @@ echo "<h1>" . $filmCasting[$id]['acteur'] . "</h1>";
             <th>Synopsis</th>
             <th>note /5</th>
             <th>Affiche</th>
+            <th>Réalisateur</th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +31,7 @@ echo "<h1>" . $filmCasting[$id]['acteur'] . "</h1>";
             <td><?= $filmInfos['synopsis'] ?></td>
             <td><?= $filmInfos['note5'] ?></td>
             <td><img src='<?= $filmInfos["lien_affiche"] ?>'></td>
+            <td><a href="index.php?action=detailRealisateur&id=<?= $filmInfos["id_realisateur"] ?>"><?php echo $filmInfos["realisateur"]; ?></a></td>
         </tr>
     </tbody>
 </table>
