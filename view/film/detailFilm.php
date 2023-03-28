@@ -3,8 +3,8 @@ ob_start();
 $filmInfos = $requeteInfo->fetch();
 $filmCasting = $requeteCasting->fetchAll();
 
-echo "<h1>" . $filmInfos['titre'] . "</h1>";
-echo "<h1>" . $filmCasting[$id]['acteur'] . "</h1>";
+// echo "<h1>" . $filmInfos['titre'] . "</h1>";
+// echo "<h1>" . $filmCasting[$id]['acteur'] . "</h1>";
 ?>
 
 <p> 

@@ -251,13 +251,13 @@ INNER JOIN role r ON r.id_role = c.role_id
     {
         $pdo = Connect::seConnecter();
         $requeteFilmduGenre = $pdo->prepare("
-        SELECT g.nom_genre AS nom_genre, 
-        f.id_film AS id_film, 
+        SELECT g.nom_genre AS nom_genre,
+        f.id_film AS id_film,
         f.titre AS titre
         FROM genre g
         INNER JOIN appartenir a ON a.id_genre = g.id_genre
         INNER JOIN film f ON f.id_film = a.id_film
-        WHERE g.id_genre = :id        
+        WHERE g.id_genre = :id
                 ");
         $requeteFilmduGenre->execute(["id" => $id]);
         require "view/genre/detailGenre.php";

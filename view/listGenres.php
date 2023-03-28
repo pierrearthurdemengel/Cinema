@@ -2,7 +2,9 @@
 ob_start();
 
 $genres = $requetelistGenres->fetchAll();
-echo $genres;
+// echo "<pre>";
+// print_r($genres);
+// echo "</pre>";
 ?>
 
 <p class="uk_label uk-label-warning">Il y a <?= $requetelistGenres->rowCount() ?> genres</p>
@@ -24,7 +26,6 @@ echo $genres;
 </table>
 
 <?php
-$titre = "Liste des Genres";
-$titre_secondaire = "Liste bis des Genres";
+$titre_secondaire = "Liste des Genres";
 $contenu = ob_get_clean();
 require "view/template.php";
