@@ -23,10 +23,10 @@ $roles = $requetelistRoles->fetchAll();
         foreach ($roles as $role) {
         ?>
             <tr>
-                <td><?= $role["role"] ?></td>
+                <td><a href="index.php?action=detailRole&id=<?=$role["id_role"] ?>">  <?= $role["role"]; ?></a></td>
                 <td><?= $role["titre"] ?></td>
                 <td><?= $role["annee"] ?></td>
-                <td><a href="index.php?action=detailRole&id=<?= $role["personne_id"] ?>"><?= $role["acteur"] ?></a></td>
+                <td><a href="index.php?action=detailRole&id=<?=$role["personne_id"] ?>"> <?= $role["acteur"]; ?></a></td>
                 <td><?= $role["sexe"] ?></td>
                 <td><?= $role["date_naissance"] ?></td>
             </tr>

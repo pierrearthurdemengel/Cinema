@@ -6,7 +6,7 @@ echo "<h1>$acteur[acteur]</h1>";
 ?>
 
 <!-- <p>
-    Filmographie : <a href="index.php?action=detailRealisateur&id=<? $film['id_film'] ?>"><?php echo $film['titre']; ?></a><br>
+    Filmographie : <a href="index.php?action=detailRealisateur&id=<? //$film['id_film'] ?>"><?php //echo $film['titre']; ?></a><br>
 </p> -->
 <table>
     <thead>

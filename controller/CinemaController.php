@@ -71,6 +71,7 @@ class CinemaController
         $pdo = Connect::seConnecter();
         $requetelistRoles = $pdo->query("
             SELECT
+                r.id_role,
                 r.nom_role AS role,
                 f.titre AS titre,
                 f.annee AS annee,
@@ -98,19 +99,6 @@ class CinemaController
         ");
 
         require "view/listGenres.php";
-    }
-
-    public function listPersonnes()
-    {
-
-        $pdo = Connect::seConnecter();
-        $requetelistPersonnes = $pdo->query("SELECT 
-    nom, prenom, date_naissance, sexe
-    FROM
-    personnes
-    ORDER BY nom DESC");
-
-        require "view/listPersonnes.php";
     }
 
     public function listCastings()
@@ -247,13 +235,14 @@ INNER JOIN role r ON r.id_role = c.role_id
         require "view/realisateur/detailRealisateur.php";
     }
 
-    public function detailGenre($id)
+    public function detailGenre(int $id)
     {
         $pdo = Connect::seConnecter();
         $requeteFilmduGenre = $pdo->prepare("
-        SELECT g.nom_genre AS nom_genre,
-        f.id_film AS id_film,
-        f.titre AS titre
+        SELECT 
+            g.nom_genre AS nom_genre,
+            f.id_film AS id_film,
+            f.titre AS titre
         FROM genre g
         INNER JOIN appartenir a ON a.id_genre = g.id_genre
         INNER JOIN film f ON f.id_film = a.id_film
@@ -262,8 +251,29 @@ INNER JOIN role r ON r.id_role = c.role_id
         $requeteFilmduGenre->execute(["id" => $id]);
         require "view/genre/detailGenre.php";
     }
-}
-
+    
+    public function detailRole(int $id)
+    {
+        $pdo = Connect::seConnecter();
+        $requeteActeurParRole = $pdo->prepare("
+        SELECT 
+                a.id_acteur AS id_acteur, 
+                CONCAT(p.prenom, ' ', p.nom) AS acteur, 
+                f.id_film AS id_film,
+                f.titre, 
+                r.nom_role AS role
+        FROM acteur a
+        JOIN personne p ON a.personne_id = p.id_personne
+        JOIN casting c ON a.id_acteur = c.acteur_id
+        JOIN film f ON c.film_id = f.id_film
+        JOIN role r ON c.role_id = r.id_role
+        WHERE r.id_role = :id ;
+            ");
+            $requeteActeurParRole->execute(["id" => $id]);
+            require "view/role/detailRole.php";
+        }
+    }
+        
 
                         // FIN DES DETAILS //
 
