@@ -1,7 +1,9 @@
 <?php
 ob_start();
-
 $castings = $requetelistCastings->fetchAll();
+$films =  $requeteFilm->fetchAll();
+$acteurs = $requeteActeur->fetchAll();
+$roles = $requeteRole->fetchAll();
 ?>
 
 <p class="uk_label uk-label-warning">Il y a <?= $requetelistCastings->rowCount() ?> genres</p>
@@ -26,8 +28,41 @@ $castings = $requetelistCastings->fetchAll();
     </tbody>
 </table>
 
+<!-- Formulaire : -->
+<form action="index.php?action=addCasting" method="post" ;>
+
+    <p>
+        <label for="titre"> Titre </label>
+        <select name="titre">
+            <?php foreach ($films as $film) {   ?>
+                <option value='<?= $film['id_film'] ?>'><?= $film['titre'] ?></option>
+            <?php   }   ?>
+        </select>
+    </p>
+    <p>
+        <label for="acteur"> Acteur </label>
+        <select name="acteur">
+            <?php foreach ($acteurs as $acteur) {   ?>
+                <option value='<?= $acteur['id_personne'] ?>'><?= $acteur['nom'] . ' ' . $acteur['prenom'] ?></option>
+            <?php   }   ?>
+        </select>
+    </p>
+    <p>
+        <label for="role"> Role </label>
+        <select name="role">
+            <?php foreach ($roles as $role) {   ?>
+                <option value='<?= $role['id_role'] ?>'><?= $role['nom_role'] ?></option>
+            <?php   }   ?>
+        </select>
+    </p>
+    <p>
+        <input type="submit" name="submit" value="Enregistrer">
+    </p>
+</form>
+
+
 <?php
-$titre = "Liste des Genres";
-$titre_secondaire = "Liste bis des Genres";
+$titre = "Liste des Castings";
+$titre_secondaire = "Liste des castings";
 $contenu = ob_get_clean();
 require "view/template.php";

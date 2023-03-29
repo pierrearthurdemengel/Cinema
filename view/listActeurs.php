@@ -10,8 +10,8 @@ $acteurs = $requetelistActeurs->fetchAll();
     <thead>
         <tr>
             <th>Acteur</th>
-            <th>Date de naissance</th>
             <th>Sexe</th>
+            <th>Date de naissance</th>
         </tr>
     </thead>
     <tbody>
@@ -19,16 +19,41 @@ $acteurs = $requetelistActeurs->fetchAll();
         foreach ($acteurs as $acteur) {
         ?>
             <tr>
-                <td><a href="index.php?action=detailActeur&id=<?= $acteur["id_acteur"] ?>"><?= $acteur["acteur"] ?></a></td>
-                <td><?= $acteur['date_naissance'] ?></td>
+                <td><a href="index.php?action=detailActeur&id=<?= $acteur["id_acteur"] ?>"><?= $acteur["prenom"]. ' '.$acteur["nom"] ?></a></td>
                 <td><?= $acteur['sexe'] ?></td>
+                <td><?= $acteur['date_naissance'] ?></td>
             </tr>
         <?php } ?>
     </tbody>
 </table>
 
+<!-- Formulaire : -->
+<form action="index.php?action=addActeur" method="post" ;>
+
+    <p>
+        <label for="nom"> Nom </label>
+        <input id="nom" type="text" name="nom">
+    </p>
+    <p>
+        <label for="prenom"> Prénom </label>
+        <input id="prenom" type="text" name="prenom">
+    </p>
+    <p>
+        <label for="sexe"> Sexe </label>
+        <input id="sexe" type="text" name="sexe">
+    </p>
+    <p>
+        <label for="date_naissance"> Date de Naissance </label>
+        <input id="date_naissance" type="text" name="date_naissance">
+    </p>
+    <p>
+        <input type="submit" name="submit" value="Enregistrer">
+    </p>
+
+</form>
+
 <?php
-$titre = "Liste des Acteurs";
+$titre = "ListActeurs";
 $titre_secondaire = "Liste des Acteurs";
-$contenu =ob_get_clean();
+$contenu = ob_get_clean();
 require "view/template.php";
