@@ -43,7 +43,7 @@ $roles = $requeteRole->fetchAll();
         <label for="acteur"> Acteur </label>
         <select name="acteur">
             <?php foreach ($acteurs as $acteur) {   ?>
-                <option value='<?= $acteur['id_personne'] ?>'><?= $acteur['nom'] . ' ' . $acteur['prenom'] ?></option>
+                <option value='<?= $acteur['id_acteur'] ?>'><?= $acteur['nom'] . ' ' . $acteur['prenom'] ?></option>
             <?php   }   ?>
         </select>
     </p>

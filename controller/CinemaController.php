@@ -117,7 +117,9 @@ INNER JOIN role r ON r.id_role = c.role_id
         ");
         $requeteFilm = $pdo->query("SELECT titre, id_film from film ORDER BY titre ASC");
         
-        $requeteActeur = $pdo->query("SELECT nom, prenom, id_personne from personne ORDER BY nom ASC");
+        $requeteActeur = $pdo->query("SELECT nom, prenom, id_acteur from personne p
+        INNER JOIN acteur a ON a.personne_id = p.id_personne
+         ORDER BY nom ASC");
         
         $requeteRole = $pdo->query("SELECT nom_role, id_role from role ORDER BY nom_role ASC");
         require "view/listCastings.php";
@@ -371,28 +373,15 @@ INNER JOIN role r ON r.id_role = c.role_id
         }
     }
 
-    // public function addPersonne()
-    // {
-    //     if (isset($_POST["submit"])) {
-    //         $addPersonne = $_POST["personne"] . $_POST["sexe"] . $_POST["date_naissance"];
-    //         $pdo = Connect::seConnecter();
-    //         $requeteaddPersonne = $pdo->prepare('INSERT INTO role VALUES (NULL, :nom, :prenom, :sexe, :date_naissance)');
-
-    //         $requeteaddPersonne->bindValue(':nom_role', $addPersonne);
-    //         $requeteaddPersonne->execute();
-
-    //         header("Location: index.php?action=listPersonnes");
-    //         require "view/listPersonne.php";
-    //     }
-    // }
     public function addCasting()
     {
-        if (isset($_POST["submit"])) {
+            if (isset($_POST["submit"])) 
+        {
             $addTitre = $_POST["titre"];
             $addActeur = $_POST["acteur"];
             $addRole = $_POST["role"];
 
-
+            
             $pdo = Connect::seConnecter();
             $requeteaddRole = $pdo->prepare('INSERT INTO casting VALUES 
             ( :id_film, :id_acteur, :id_role)');
@@ -406,29 +395,30 @@ INNER JOIN role r ON r.id_role = c.role_id
             require "view/listCastings.php";
         }
     }
-    // public function addFilm() {
-    //     if (isset($_POST["submit"]))
-    //     {
-    //         $titre = $_POST["titre"];
-    //         $annee = $_POST["annee"];
-    //         $duree = $_POST["duree_format"];
-    //         $synopsis = $_POST["synopsis"];
-    //         $note5 = $_POST["note5"];
-    //         $lien_affiche = $_POST["lien_affiche"];
+    public function addFilm() {
+            if (isset($_POST["submit"]))
+        {
+                $titre = $_POST["titre"];
+                $annee = $_POST["annee"];
+                $duree = $_POST["duree_format"];
+                $synopsis = $_POST["synopsis"];
+                $note5 = $_POST["note5"];
+                $lien_affiche = $_POST["lien_affiche"];
+        
+                $pdo = Connect::seConnecter();
+                $requeteaddFilm = $pdo->prepare('INSERT INTO contact VALUES (NULL, :titre, :annee, :duree_format, :synopsis, :note5, :lien_affiche)');
+                $requeteaddFilm->bindValue(':titre', $titre);
+                $requeteaddFilm->bindValue(':annee', $annee);
+                $requeteaddFilm->bindValue(':duree_format', $duree);
+                $requeteaddFilm->bindValue(':synopsis', $synopsis);
+                $requeteaddFilm->bindValue(':note5', $note5);
+                $requeteaddFilm->bindValue(':lien_affiche', $lien_affiche);
+                $requeteaddFilm->execute();
+                header("Location: index.php?action=listFilms");
+                // require "view/listFilms.php";
+        }
 
-    //         $pdo = Connect::seConnecter();
-    //         $requeteaddFilm = $pdo->prepare('INSERT INTO contact VALUES (NULL, :titre, :annee, :duree_format, :synopsis, :note5, :lien_affiche)');
-    //         $requeteaddFilm->bindValue(':titre', $titre, PDO::PARAM_STR);
-    //         $requeteaddFilm->bindValue(':annee', $annee, PDO::PARAM_STR);
-    //         $requeteaddFilm->bindValue(':duree_format', $duree, PDO::PARAM_INT);
-    //         $requeteaddFilm->bindValue(':synopsis', $synopsis, PDO::PARAM_STR);
-    //         $requeteaddFilm->bindValue(':note5', $note5, PDO::PARAM_INT);
-    //         $requeteaddFilm->bindValue(':lien_affiche', $lien_affiche, PDO::PARAM_STR);
-    //         $requeteaddFilm->execute();
-    //         header("Location: index.php?action=listFilms");
-    //         // require "view/listFilms.php";
-    //     }
-    // }
+    }
 
 
 };
