@@ -71,21 +71,13 @@ class CinemaController
         $pdo = Connect::seConnecter();
         $requetelistRoles = $pdo->query("
             SELECT
-                r.id_role,
-                r.nom_role AS role,
-                f.titre AS titre,
-                f.annee AS annee,
-                CONCAT(p.prenom, ' ', p.nom) AS acteur,
-                CONCAT(UPPER(LEFT(p.sexe, 1)), SUBSTRING(p.sexe, 2)) AS sexe,
-                DATE_FORMAT(p.date_naissance, '%d-%m-%Y') AS date_naissance 
+                id_role,
+                nom_role AS role
             FROM
-                film f
-            INNER JOIN casting c ON f.id_film = c.film_id
-            INNER JOIN acteur a ON a.id_acteur = c.acteur_id
-            INNER JOIN personne p ON p.id_personne = a.personne_id
-            INNER JOIN role r ON r.id_role = c.role_id
-            ORDER BY annee DESC    
+               role 
+            ORDER BY nom_role DESC    
         ");
+   
         require "view/listRoles.php";
     }
 
@@ -269,7 +261,10 @@ INNER JOIN role r ON r.id_role = c.role_id
         JOIN role r ON c.role_id = r.id_role
         WHERE r.id_role = :id ;
             ");
+
+        $requeteInfoRole = $pdo->prepare("SELECT * from role WHERE id_role = :id");
         $requeteActeurParRole->execute(["id" => $id]);
+        $requeteInfoRole->execute(["id" => $id]);
         require "view/role/detailRole.php";
     }
                     
@@ -285,10 +280,27 @@ INNER JOIN role r ON r.id_role = c.role_id
             $addgenre = $_POST["nom_genre"];
             $pdo = Connect::seConnecter();
             $requeteaddGenre = $pdo->prepare('INSERT INTO genre VALUES (NULL, :nom_genre)');
+
             $requeteaddGenre->bindValue(':nom_genre', $addgenre);
             $requeteaddGenre->execute();
             header("Location: index.php?action=listGenres");
             require "view/listGenres.php";
+        }
+    }
+
+    
+    public function addRole()
+    { 
+        if (isset($_POST["submit"])) { 
+            $addRole = $_POST["nom_role"];
+            $pdo = Connect::seConnecter();
+            $requeteaddRole = $pdo->prepare('INSERT INTO role VALUES (NULL, :nom_role)');
+            
+            $requeteaddRole->bindValue(':nom_role', $addRole);
+            $requeteaddRole->execute();
+            
+            header("Location: index.php?action=listRoles");
+            require "view/listRoles.php";
         }
     }
     // public function addFilm() {

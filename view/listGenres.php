@@ -1,7 +1,7 @@
 <?php
 ob_start();
 $genres = $requetelistGenres->fetchAll();
-// $addgenre = $requeteaddGenre->fetch();
+
 // echo "<pre>";
 // print_r($genres);
 // echo "</pre>";

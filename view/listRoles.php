@@ -2,7 +2,7 @@
 ob_start();
 
 $roles = $requetelistRoles->fetchAll();
-// 
+ 
 
 ?>
 
@@ -11,11 +11,7 @@ $roles = $requetelistRoles->fetchAll();
     <thead>
         <tr>
             <th>Role</th>
-            <th>Titre</th>
-            <th>Annee</th>
-            <th>Acteur</th>
-            <th>Sexe</th>
-            <th>Date de naissance</th>
+       
         </tr>
     </thead>
     <tbody>
@@ -24,18 +20,25 @@ $roles = $requetelistRoles->fetchAll();
         ?>
             <tr>
                 <td><a href="index.php?action=detailRole&id=<?=$role["id_role"] ?>">  <?= $role["role"]; ?></a></td>
-                <td><?= $role["titre"] ?></td>
-                <td><?= $role["annee"] ?></td>
-                <td><a href="index.php?action=detailRole&id=<?=$role["personne_id"] ?>"> <?= $role["acteur"]; ?></a></td>
-                <td><?= $role["sexe"] ?></td>
-                <td><?= $role["date_naissance"] ?></td>
             </tr>
         <?php } ?>
     </tbody>
 </table>
 
+                            <!-- Formulaire : -->
+<form action="index.php?action=addRole" method="post";>
+
+<p>
+    <label for="nom_role"> Nouveau Role </label>
+    <input id="nom_role" type="text" name="nom_role">
+</p>
+
+<p><input type="submit" name ="submit" value="Enregistrer"></p>
+
+</form>
+
 <?php
-$titre = "Liste des Acteurs par role";
+$titre = "ListRole";
 $titre_secondaire = "Liste des Acteurs";
 $contenu =ob_get_clean();
 require "view/template.php";

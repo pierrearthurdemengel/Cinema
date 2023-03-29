@@ -1,12 +1,14 @@
 <?php
 ob_start();
+
 $id_acteur = $_GET['id'];
 $ActeurParRole = $requeteActeurParRole->fetchAll();
+$requeteInfoRole = $requeteInfoRole->fetch();
 
   
 ?>
 <p>
-    Role : <?= $ActeurParRole['role'] ?><br>
+    Role : <?= $requeteInfoRole['nom_role'] ?><br>
 </p>
 
 <table>
@@ -33,7 +35,7 @@ $ActeurParRole = $requeteActeurParRole->fetchAll();
 
 <?php
 $titre = "Liste des Films ";
-$titre_secondaire = "Liste des Films de Role " .$ActeurParRole['role'];
+$titre_secondaire = "Liste des Films de Role " .$requeteInfoRole['nom_role'];
 $contenu = ob_get_clean();
 require "view/template.php";
 ?>
