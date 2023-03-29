@@ -359,23 +359,23 @@ INNER JOIN role r ON r.id_role = c.role_id
             require "view/listActeurs.php";
         }
     }
-
     public function addRealisateur()
+    
     {
         if (isset($_POST["submit"])) {
             $addNom = $_POST["nom"];
             $addPrenom = $_POST["prenom"];
             $addSexe = $_POST["sexe"];
             $addDateNaiss = $_POST["date_naissance"];
-
+            
             $pdo = Connect::seConnecter();
-            $requeteaddRole = $pdo->prepare('INSERT INTO personne VALUES 
+            $requeteaddRealisateur = $pdo->prepare('INSERT INTO personne VALUES 
             (NULL, :nom, :prenom, :sexe, :date_naissance)');
-            $requeteaddRole->bindValue(':nom', $addNom);
-            $requeteaddRole->bindValue(':prenom', $addPrenom);
-            $requeteaddRole->bindValue(':sexe', $addSexe);
-            $requeteaddRole->bindValue(':date_naissance', $addDateNaiss);
-            $requeteaddRole->execute();
+            $requeteaddRealisateur->bindValue(':nom', $addNom);
+            $requeteaddRealisateur->bindValue(':prenom', $addPrenom);
+            $requeteaddRealisateur->bindValue(':sexe', $addSexe);
+            $requeteaddRealisateur->bindValue(':date_naissance', $addDateNaiss);
+            $requeteaddRealisateur->execute();
             // requeteaddRole
 
             header("Location: index.php?action=listRealisateurs");
