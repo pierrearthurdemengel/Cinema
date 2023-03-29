@@ -9,8 +9,7 @@ $acteurs = $requetelistActeurs->fetchAll();
 <table>
     <thead>
         <tr>
-            <th>Nom</th>
-            <th>Prenom</th>
+            <th>Acteur</th>
             <th>Date de naissance</th>
             <th>Sexe</th>
         </tr>
@@ -20,9 +19,7 @@ $acteurs = $requetelistActeurs->fetchAll();
         foreach ($acteurs as $acteur) {
         ?>
             <tr>
-                <td><a href="index.php?action=detailActeur&id=<?= $acteur["id_acteur"] ?>"><?= $acteur["nom"].' '.$acteur["prenom"] ?></a></td>
-                <td><?= $acteur['nom'] ?></td>
-                <td><?= $acteur['prenom'] ?></td>
+                <td><a href="index.php?action=detailActeur&id=<?= $acteur["id_acteur"] ?>"><?= $acteur["acteur"] ?></a></td>
                 <td><?= $acteur['date_naissance'] ?></td>
                 <td><?= $acteur['sexe'] ?></td>
             </tr>

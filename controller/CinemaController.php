@@ -32,7 +32,8 @@ class CinemaController
 
         $pdo = Connect::seConnecter();
         $requetelistActeurs = $pdo->query("SELECT id_acteur,
-                nom, prenom, date_naissance, sexe
+                CONCAT(p.prenom, ' ', p.nom) AS acteur, 
+                date_naissance, sexe
                 FROM
                 acteur a
                 INNER JOIN personne p ON p.id_personne = a.personne_id
@@ -114,6 +115,20 @@ INNER JOIN role r ON r.id_role = c.role_id
         ");
 
         require "view/listCastings.php";
+    }
+
+    public function listPersonnes()
+    {
+
+        $pdo = Connect::seConnecter();
+        $requetelistPersonnes = $pdo->query("SELECT 
+    CONCAT(p.prenom, ' ', p.nom) AS personne, 
+    sexe, date_naissance
+    FROM
+    personne
+    ORDER BY nom DESC");
+
+        require "view/listPersonnes.php";
     }
     // FIN DES LISTES //
 
@@ -301,6 +316,36 @@ INNER JOIN role r ON r.id_role = c.role_id
             
             header("Location: index.php?action=listRoles");
             require "view/listRoles.php";
+        }
+    }
+
+    public function addActeur()
+    { 
+        if (isset($_POST["submit"])) { 
+            $addRole = $_POST["acteur"];
+            $pdo = Connect::seConnecter();
+            $requeteaddRole = $pdo->prepare('INSERT INTO personne VALUES (NULL, :acteur, :date_naissance, :Sexe)');
+            
+            $requeteaddRole->bindValue(':acteur', $addRole);
+            $requeteaddRole->execute();
+            
+            header("Location: index.php?action=listRoles");
+            require "view/listRoles.php";
+        }
+    }
+
+    public function addPersonne()
+    { 
+        if (isset($_POST["submit"])) { 
+            $addPersonne = $_POST["personne"].$_POST["sexe"].$_POST["date_naissance"];
+            $pdo = Connect::seConnecter();
+            $requeteaddPersonne = $pdo->prepare('INSERT INTO role VALUES (NULL, :nom, :prenom, :sexe, :date_naissance)');
+            
+            $requeteaddPersonne->bindValue(':nom_role', $addPersonne);
+            $requeteaddPersonne->execute();
+            
+            header("Location: index.php?action=listPersonnes");
+            require "view/listPersonne.php";
         }
     }
     // public function addFilm() {

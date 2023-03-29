@@ -20,7 +20,8 @@
                 <li><a href="index.php?action=listRealisateurs">Liste des réalisateurs</a></li>
                 <li><a href="index.php?action=listCastings">Liste des Castings</a></li>
                 <li><a href="index.php?action=listGenres">Liste des Genres</a></li>
-                <li><a href="index.php?action=listRoles">Liste des Roles</a></li>  
+                <li><a href="index.php?action=listRoles">Liste des Roles</a></li>
+                <li><a href="index.php?action=listPersonnes">Liste des Personnes</a></li>    
             </ul>
         </nav>
         <main>
