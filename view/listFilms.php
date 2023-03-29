@@ -3,6 +3,8 @@
 ob_start();
 
 $films = $requetelistFilms->fetchAll();
+$realisateurs = $requeteRealisateur->fetchAll();
+$genres = $requeteGenre->fetchAll();
 
 
 ?>
@@ -16,7 +18,9 @@ $films = $requetelistFilms->fetchAll();
             <th>Durée</th>
             <th>Synopsis</th>
             <th>Note / 5</th>
-            <th>affiche</th>
+            <th>Affiche</th>
+            <th>Realisateur</th>
+            <th>Genre</th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +34,8 @@ $films = $requetelistFilms->fetchAll();
                 <td><?= $film["synopsis"] ?></td>
                 <td><?= $film["note5"] ?></td>
                 <td><img src='<?= $film["lien_affiche"] ?>'></td>
+                <td><a href="index.php?action=detailRealisateur&id=<?= $realisateurs["id_personne"] ?>"><?= $realisateurs["realisateur"] ?></a></td>
+                <td><a href="index.php?action=detailGenre&id=<?= $genres["id_genre"] ?>"><?= $genres["nom_genre"] ?></a></td>
             </tr>
         <?php } ?>
     </tbody>
@@ -63,27 +69,27 @@ $films = $requetelistFilms->fetchAll();
         <input id="lien_affiche" type="url" name="lien_affiche">
     </p>
     <!-- 1 - realisateur dans un eliste éroulante  -->
-    <form action="index.php?action=addCasting" method="post" ;>
+    <form action="index.php?action=addRealisateur" method="post" ;>
 
-<p>
-    <label for="realisateur"> Réalisateur </label>
-    <select name="realisateur">
-        <?php foreach ($realisateurs as $real) {   ?>
-            <option value='<?= $real['id_realisateur'] ?>'><?= $real['realisateur'] ?></option>
-            <?php   }   ?>
-        </select>
-    </p>
-</form>
-<!-- 2 -genre en checkbox pour pouvoir en avoir plusieur (foreach)-->
-<form action="index.php?action=addGenre" method="post" ;>
-    
-    <p>
-        <label for="nom_genre"> Nouveau Genre </label>
-        <input id="nom_genre" type="text" name="nom_genre">
-        <?php foreach ($genres as $genre) {   ?>
+        <p>
+            <label for="realisateur"> Réalisateur </label>
+            <select name="realisateur">
+                <?php foreach ($realisateurs as $realisateur) {   ?>
+                    <option value='<?= $realisateur['id_realisateur'] ?>'><?= $realisateur['realisateur'] ?></option>
+                <?php   }   ?>
+            </select>
+        </p>
+    </form>
+    <!-- 2 -genre en checkbox pour pouvoir en avoir plusieur (foreach)-->
+    <form action="index.php?action=addGenre" method="post" ;>
+
+        <p>
+            <label for="nom_genre"> Nouveau Genre </label>
+            <input id="nom_genre" type="text" name="nom_genre">
+            <?php foreach ($genres as $genre) {   ?>
         </p>
         <p><input type="checkbox" name="submit" value="Enregistrer"></p>
-        <?php   }   ?>
+    <?php   }   ?>
 
     </form>
 

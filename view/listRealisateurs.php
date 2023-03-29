@@ -17,12 +17,12 @@ $realisateurs = $requetelistRealisateurs->fetchAll();
     </thead>
     <tbody>
         <?php
-        foreach ($realisateurs as $r) {
+        foreach ($realisateurs as $realisateur) {
             ?>
             <tr>
-                <td><a href="index.php?action=detailRealisateur&id=<?= $r["id_personne"] ?>"><?= $r["nom"].' '.$r["prenom"] ?></a></td>
-                <td><?= $r["date_naissance"] ?></td>
-                <td><?= $r["sexe"] ?></td>
+                <td><a href="index.php?action=detailRealisateur&id=<?= $realisateur["id_personne"] ?>"><?= $realisateur["nom"].' '.$realisateur["prenom"] ?></a></td>
+                <td><?= $realisateur["date_naissance"] ?></td>
+                <td><?= $realisateur["sexe"] ?></td>
             </tr>
             <?php } ?>
         </tbody>
@@ -54,7 +54,7 @@ $realisateurs = $requetelistRealisateurs->fetchAll();
     </form>
     
     <?php
-$titre = "Liste des realisateurs";
+$titre = "ListRealisateurs";
 $titre_secondaire = "Liste des realisateurs";
 $contenu =ob_get_clean();
 require "view/template.php";

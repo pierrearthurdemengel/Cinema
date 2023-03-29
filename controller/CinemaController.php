@@ -13,13 +13,23 @@ class CinemaController
         $pdo = Connect::seConnecter();
         var_dump($pdo);
         $requetelistFilms = $pdo->query("
-            SELECT id_film, titre, 
-            annee, 
-            TIME_FORMAT(SEC_TO_TIME(f.duree * 60), '%H:%i') as duree_format,
-            synopsis,
-            note5,
-            lien_affiche
-            FROM film f
+        SELECT 
+            f.id_film, 
+            f.titre, 
+            f.annee, 
+            TIME_FORMAT(SEC_TO_TIME(f.duree * 60), '%H:%i') as duree_format, 
+            f.synopsis, 
+            f.note5, 
+            f.lien_affiche, 
+            f.realisateur_id AS id_realisateur,
+            CONCAT(p.prenom, ' ', p.nom) AS realisateur,
+            g.id_genre,
+            g.nom_genre
+        FROM film f
+        JOIN realisateur r ON f.realisateur_id = r.id_realisateur
+        JOIN appartenir a ON f.id_film = a.id_film
+        JOIN personne p ON p.id_personne = r.personne_id
+        JOIN genre g ON a.id_genre = g.id_genre;
         ");
 
         require "view/listFilms.php";
@@ -366,7 +376,7 @@ INNER JOIN role r ON r.id_role = c.role_id
             $requeteaddRole->bindValue(':sexe', $addSexe);
             $requeteaddRole->bindValue(':date_naissance', $addDateNaiss);
             $requeteaddRole->execute();
-            
+            // requeteaddRole
 
             header("Location: index.php?action=listRealisateurs");
             require "view/listRealisateurs.php";
@@ -404,15 +414,24 @@ INNER JOIN role r ON r.id_role = c.role_id
                 $synopsis = $_POST["synopsis"];
                 $note5 = $_POST["note5"];
                 $lien_affiche = $_POST["lien_affiche"];
+                $realisateurs = $_POST["realisateur"];
+                $genres = $_POST["genre"];
         
                 $pdo = Connect::seConnecter();
-                $requeteaddFilm = $pdo->prepare('INSERT INTO contact VALUES (NULL, :titre, :annee, :duree_format, :synopsis, :note5, :lien_affiche)');
+                $requeteaddFilm = $pdo->prepare('INSERT INTO film VALUES (NULL, :titre, :annee, :duree_format, :synopsis, :note5, :lien_affiche, NULL, :genre)');
+                $requeteRealisateur = $pdo->prepare('INSERT INTO film VALUES (NULL, :realisateur)');
+                $$requeteGenre = $pdo->prepare('INSERT INTO film VALUES (NULL, :genres)');
+
+
+
                 $requeteaddFilm->bindValue(':titre', $titre);
                 $requeteaddFilm->bindValue(':annee', $annee);
                 $requeteaddFilm->bindValue(':duree_format', $duree);
                 $requeteaddFilm->bindValue(':synopsis', $synopsis);
                 $requeteaddFilm->bindValue(':note5', $note5);
                 $requeteaddFilm->bindValue(':lien_affiche', $lien_affiche);
+                $requeteRealisateur->bindValue(':realisateur', $realisateurs);
+                $$requeteGenre->bindValue(':genre', $genres);
                 $requeteaddFilm->execute();
                 
                 header("Location: index.php?action=listFilms");
