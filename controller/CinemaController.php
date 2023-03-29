@@ -414,8 +414,9 @@ INNER JOIN role r ON r.id_role = c.role_id
                 $requeteaddFilm->bindValue(':note5', $note5);
                 $requeteaddFilm->bindValue(':lien_affiche', $lien_affiche);
                 $requeteaddFilm->execute();
+                
                 header("Location: index.php?action=listFilms");
-                // require "view/listFilms.php";
+                require "view/listFilms.php";
         }
 
     }
