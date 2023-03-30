@@ -69,7 +69,7 @@ $genres = $requeteGenre->fetchAll();
         <input id="lien_affiche" type="url" name="lien_affiche">
     </p>
     <!-- 1 - realisateur dans un eliste éroulante  -->
-    <form action="index.php?action=addRealisateur" method="post" ;>
+    <form action="index.php?action=addRealisateurFilm" method="post" ;>
 
         <p>
             <label for="realisateur"> Réalisateur </label>
@@ -81,14 +81,13 @@ $genres = $requeteGenre->fetchAll();
         </p>
     </form>
     <!-- 2 -genre en checkbox pour pouvoir en avoir plusieur (foreach)-->
-    <form action="index.php?action=addGenre" method="post" ;>
+    <form action="index.php?action=addGenreFilm" method="post" ;>
 
         <p>
             <label for="nom_genre"> Nouveau Genre </label>
-            <input id="nom_genre" type="text" name="nom_genre">
+            <input id="nom_genre" type="checkbox" name="nom_genre">
             <?php foreach ($genres as $genre) {   ?>
         </p>
-        <p><input type="checkbox" name="submit" value="Enregistrer"></p>
     <?php   }   ?>
 
     </form>

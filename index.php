@@ -33,6 +33,9 @@ if(isset($_GET["action"])) {
         case "addRealisateur" : $ctrlCinema->addRealisateur(); break;
         case "addCasting" : $ctrlCinema->addCasting(); break;
         case "addFilm" : $ctrlCinema->addFilm(); break;
+        case "addRealisateurFilm" : : $ctrlCinema->addRealisateurFilm(); break;
+        case "addGenreFilm" : : $ctrlCinema->addGenreFilm(); break;
+
     }
 }
 else {
