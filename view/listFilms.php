@@ -14,13 +14,12 @@ $genres = $requeteaddGenr->fetchAll();
     <thead>
         <tr>
             <th>TITRE</th>
-            <th>ANNEE SORTIE</th>
+            <th>Année</th>
             <th>Durée</th>
             <th>Synopsis</th>
             <th>Note / 5</th>
             <th>Affiche</th>
             <th>Realisateur</th>
-            <th>Genre</th>
         </tr>
     </thead>
     <tbody>
@@ -34,8 +33,7 @@ $genres = $requeteaddGenr->fetchAll();
                 <td><?= $film["synopsis"] ?></td>
                 <td><?= $film["note5"] ?></td>
                 <td><img src='<?= $film["lien_affiche"] ?>'></td>
-                <td><a href="index.php?action=detailRealisateur&id=<?= $realisateurs["realisateur_id"] ?>"><?= $realisateurs["realisateur"] ?></a></td>
-                <td><a href="index.php?action=detailGenre&id=<?= $genres["id_genre"] ?>"><?= $genres["nom_genre"] ?></a></td>
+                <td><a href="index.php?action=detailRealisateur&id=<?= $film["realisateur_id"] ?>"><?= $film["realisateur"] ?></a></td>
             </tr>
         <?php } ?>
     </tbody>

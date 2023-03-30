@@ -11,8 +11,8 @@ class CinemaController
     {
         $pdo = Connect::seConnecter();
         var_dump($pdo);
-        $requetelistFilms = $pdo->query("
-        SELECT 
+
+        $requetelistFilms = $pdo->query("SELECT 
             f.id_film, 
             f.titre, 
             f.annee, 
@@ -31,17 +31,20 @@ class CinemaController
         JOIN personne p ON p.id_personne = r.personne_id
         JOIN genre g ON a.id_genre = g.id_genre;
         ");
-        $requeteaddReali = $pdo->query("
-        SELECT 
+
+
+        $requeteaddReali = $pdo->query("SELECT 
             CONCAT(p.prenom, ' ', p.nom) AS realisateur,
             id_realisateur 
         from 
             realisateur r
         INNER JOIN personne p ON p.id_personne = r.personne_id
         GROUP BY id_realisateur");
-        $requeteaddGenr = $pdo->query("SELECT nom_genre, id_genre
-        from genre g
-        ORDER BY nom_genre ASC");
+
+
+        $requeteaddGenr = $pdo->query("SELECT id_genre, nom_genre 
+        from genre
+        ORDER BY nom_genre");
         require "view/listFilms.php";
     }
 
@@ -52,15 +55,15 @@ class CinemaController
 
         $pdo = Connect::seConnecter();
         $requetelistActeurs = $pdo->query("SELECT id_acteur,
-                p.nom,
-                p.prenom,
-                date_naissance, 
-                sexe
+                    p.nom,
+                    p.prenom,
+                    date_naissance, 
+                    sexe,
+                    COUNT(c.acteur_id) AS nbFilms
                 FROM
-                acteur a
+                    acteur a
                 INNER JOIN personne p ON p.id_personne = a.personne_id
-                INNER JOIN casting c ON a.id_acteur = c.acteur_id
-                INNER JOIN film f ON c.film_id = f.id_film
+                LEFT JOIN casting c ON a.id_acteur = c.acteur_id
                 GROUP BY a.id_acteur
                 ORDER BY nom DESC");
 
@@ -80,7 +83,6 @@ class CinemaController
         id_personne
         FROM
         realisateur r
-        INNER JOIN film f ON r.id_realisateur = f.realisateur_id
         INNER JOIN personne p ON r.personne_id = p.id_personne
         GROUP BY r.id_realisateur
         ORDER BY nom DESC    
@@ -128,12 +130,12 @@ class CinemaController
             CONCAT(p.prenom, ' ', p.nom) AS acteur,
             id_role,
             nom_role
-FROM
-   casting c
-INNER JOIN film f ON f.id_film = c.film_id
-INNER JOIN acteur a ON a.id_acteur = c.acteur_id
-INNER JOIN personne p ON a.personne_id = p.id_personne
-INNER JOIN role r ON r.id_role = c.role_id
+            FROM
+            casting c
+            INNER JOIN film f ON f.id_film = c.film_id
+            INNER JOIN acteur a ON a.id_acteur = c.acteur_id
+            INNER JOIN personne p ON a.personne_id = p.id_personne
+            INNER JOIN role r ON r.id_role = c.role_id
         ");
         $requeteFilm = $pdo->query("SELECT titre, id_film from film ORDER BY titre ASC");
         
@@ -346,7 +348,6 @@ INNER JOIN role r ON r.id_role = c.role_id
             require "view/listRoles.php";
         }
     }
-
     public function addActeur()
     {
         if (isset($_POST["submit"])) {
@@ -354,42 +355,64 @@ INNER JOIN role r ON r.id_role = c.role_id
             $addPrenom = $_POST["prenom"];
             $addSexe = $_POST["sexe"];
             $addDateNaiss = $_POST["date_naissance"];
-
-            $pdo = Connect::seConnecter();
-            $requeteaddRole = $pdo->prepare('INSERT INTO personne VALUES 
-            (NULL, :nom, :prenom, :sexe, :date_naissance)');
-            $requeteaddRole->bindValue(':nom', $addNom);
-            $requeteaddRole->bindValue(':prenom', $addPrenom);
-            $requeteaddRole->bindValue(':sexe', $addSexe);
-            $requeteaddRole->bindValue(':date_naissance', $addDateNaiss);
-            $requeteaddRole->execute();
             
-
+            
+            $pdo = Connect::seConnecter();
+            $requeteaddPersonne = $pdo->prepare('INSERT INTO personne 
+            (nom, prenom, sexe, date_naissance) VALUES 
+            (:nom, :prenom, :sexe, :date_naissance)');
+            // $requeteaddRole->bindValue(':nom', $addNom);
+            // $requeteaddRole->bindValue(':prenom', $addPrenom);
+            // $requeteaddRole->bindValue(':sexe', $addSexe);
+            // $requeteaddRole->bindValue(':date_naissance', $addDateNaiss);
+            $requeteaddPersonne->execute(
+                [
+                    "nom" => $addNom,
+                    "prenom" => $addPrenom,
+                    "sexe" => $addSexe,
+                    "date_naissance" => $addDateNaiss
+                ]
+            );
+                
+            $personne_id = $pdo->lastInsertId();
+        
+            $requeteaddActeur = $pdo->prepare("INSERT INTO acteur (personne_id) VALUES (:id_personne)");
+            $requeteaddActeur->execute([":id_personne" => $personne_id]);
+                
             header("Location: index.php?action=listActeurs");
-            require "view/listActeurs.php";
         }
     }
-    public function addRealisateur()
-    
-    {
-        if (isset($_POST["submit"])) {
-            $addNom = $_POST["nom"];
-            $addPrenom = $_POST["prenom"];
-            $addSexe = $_POST["sexe"];
-            $addDateNaiss = $_POST["date_naissance"];
             
-            $pdo = Connect::seConnecter();
-            $requeteaddRealisateur = $pdo->prepare('INSERT INTO personne VALUES 
-            (NULL, :nom, :prenom, :sexe, :date_naissance)');
-            $requeteaddRealisateur->bindValue(':nom', $addNom);
-            $requeteaddRealisateur->bindValue(':prenom', $addPrenom);
-            $requeteaddRealisateur->bindValue(':sexe', $addSexe);
-            $requeteaddRealisateur->bindValue(':date_naissance', $addDateNaiss);
-            $requeteaddRealisateur->execute();
-            // requeteaddRole
+        public function addRealisateur()
+        {
+            if (isset($_POST["submit"])) {
+                $addNom = $_POST["nom"];
+                $addPrenom = $_POST["prenom"];
+                $addSexe = $_POST["sexe"];
+                $addDateNaiss = $_POST["date_naissance"];
+                
+                $pdo = Connect::seConnecter();
+                $requeteaddRealisateur = $pdo->prepare('INSERT INTO personne (nom, prenom, sexe, date_naissance) VALUES 
+                (:nom, :prenom, :sexe, :date_naissance)');
+            // $requeteaddRealisateur->bindValue(':nom', $addNom);
+            // $requeteaddRealisateur->bindValue(':prenom', $addPrenom);
+            // $requeteaddRealisateur->bindValue(':sexe', $addSexe);
+            // $requeteaddRealisateur->bindValue(':date_naissance', $addDateNaiss);
+            $requeteaddRealisateur->execute(                
+            [
+                "nom" => $addNom,
+                "prenom" => $addPrenom,
+                "sexe" => $addSexe,
+                "date_naissance" => $addDateNaiss,
+                ]
+            );
+            
+        $personne_id = $pdo->lastInsertId();
+
+        $requeteaddRealisateur = $pdo->prepare("INSERT INTO realisateur(personne_id) VALUES (:id_personne)");
+        $requeteaddRealisateur->execute(["id_personne" => $personne_id]);
 
             header("Location: index.php?action=listRealisateurs");
-            require "view/listRealisateurs.php";
         }
     }
 
@@ -481,10 +504,24 @@ public function addGenreFilm() {
         $genres = $_POST["nom_genre"];
 
         $pdo = Connect::seConnecter();
-        $requeteGenre = $pdo->prepare('INSERT INTO genre VALUES (NULL, :nom_genre)');
+        $requeteGenre = $pdo->prepare('INSERT INTO genre (nom_genre) 
+        VALUES (:nom_genre)');
 
-        $requeteGenre->bindValue(':genre', $genres);
-        $requeteGenre->execute();
+        $requeteAddGenre->execute(
+            [
+                "nom_genre" => $nom_genre
+            ]
+        );
+
+        $genre_id = $pdo->lastInsertId();
+
+        $requeteAddAppartenir = $pdo->prepare("INSERT INTO appartenir (id_film) VALUES (:id_film");
+        $requeteAddAppartenir->execute(
+            [
+                "id_film" => $id_film
+            ]
+        );
+
 
         header("Location: index.php?action=listFilms");
         require "view/listFilms.php";

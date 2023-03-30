@@ -12,6 +12,7 @@ $acteurs = $requetelistActeurs->fetchAll();
             <th>Acteur</th>
             <th>Sexe</th>
             <th>Date de naissance</th>
+            <th>Nombre de films</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@ $acteurs = $requetelistActeurs->fetchAll();
                 <td><a href="index.php?action=detailActeur&id=<?= $acteur["id_acteur"] ?>"><?= $acteur["prenom"]. ' '.$acteur["nom"] ?></a></td>
                 <td><?= $acteur['sexe'] ?></td>
                 <td><?= $acteur['date_naissance'] ?></td>
+                <td><?= $acteur['nbFilms'] ?></td>
             </tr>
         <?php } ?>
     </tbody>
