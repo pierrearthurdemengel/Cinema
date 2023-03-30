@@ -3,8 +3,8 @@
 ob_start();
 
 $films = $requetelistFilms->fetchAll();
-$realisateurs = $requeteaddReali->fetchAll();
-$genres = $requeteaddGenr->fetchAll();
+$realisateurs = $requeteReal->fetchAll();
+$genres = $requeteGenr->fetchAll();
 
 
 ?>
@@ -25,13 +25,21 @@ $genres = $requeteaddGenr->fetchAll();
     <tbody>
         <?php
         foreach ($films as $film) {
-        ?>
+            ?>
             <tr>
                 <td><a href="index.php?action=detailFilm&id=<?= $film["id_film"] ?>"><?= $film["titre"] ?></a></td>
-                <td><?= $film["annee"] ?></td>
-                <td><?= $film["duree_format"] ?></td>
-                <td><?= $film["synopsis"] ?></td>
-                <td><?= $film["note5"] ?></td>
+                <td>
+                    <?= $film["annee"] ?>
+                </td>
+                <td>
+                    <?= $film["duree_format"] ?>
+                </td>
+                <td>
+                    <?= $film["synopsis"] ?>
+                </td>
+                <td>
+                    <?= $film["note5"] ?>
+                </td>
                 <td><img src='<?= $film["lien_affiche"] ?>'></td>
                 <td><a href="index.php?action=detailRealisateur&id=<?= $film["realisateur_id"] ?>"><?= $film["realisateur"] ?></a></td>
             </tr>
@@ -40,60 +48,40 @@ $genres = $requeteaddGenr->fetchAll();
 </table>
 
 <!-- Formulaire : -->
-<form action="view/listFilms.php" method="post">
+<form action="index.php?action=addFilm" method="post">
 
-    <p>
+    
         <label for="titre"> Titre </label>
-        <input id="titre" type="text" name="Titre">
-    </p>
-    <p>
+        <input id="titre" type="text" name="titre">
+    
         <label for="annee"> annee </label>
-        <input id="annee" type="texte" name="Annee">
-    </p>
-    <p>
+        <input id="annee" type="number" name="annee">
+    
         <label for="duree_format"> durée du film</label>
-        <input id="duree_format" type="number" name="duree">
-    </p>
-    <p>
+        <input id="duree_format" type="number" name="duree_format">
+    
         <label for="synopsis"> synopsis </label>
         <input id="synopsis" type="text" name="synopsis">
-    </p>
-    <p>
+    
         <label for="note5"> note /5 </label>
         <input id="note5" type="number" name="note5">
-    </p>
-    <p>
+    
         <label for="lien_affiche"> affiche </label>
         <input id="lien_affiche" type="url" name="lien_affiche">
-    </p>
-    <!-- 1 - realisateur dans un eliste éroulante  -->
-    <form action="index.php?action=addRealisateurFilm" method="post" ;>
 
-        <p>
+
+    <!-- 1 - realisateur dans un eliste éroulante  -->
+
             <label for="realisateur"> Réalisateur </label>
             <select name="realisateur">
-                <?php foreach ($realisateurs as $realisateur) {   ?>
+                <?php foreach ($realisateurs as $realisateur) { ?>
                     <option value='<?= $realisateur['id_realisateur'] ?>'><?= $realisateur['realisateur'] ?></option>
-                <?php   }   ?>
+                <?php } ?>
             </select>
-        </p>
-    </form>
-    <!-- 2 -genre en checkbox pour pouvoir en avoir plusieur (foreach)-->
-    <form action="index.php?action=addGenreFilm" method="post" ;>
-
-        <p>
-            <label for="nom_genre"> Genre </label>
-            <?php foreach ($genres as $genre) {   ?>
-                <input id="nom_genre" type="checkbox" name="nom_genre">
-                <option value='<?= $genre['id_genre'] ?>'><?= $genre['nom_genre'] ?></option>
-        </p>
-    <?php   }   ?>
-
+       
+            <input type="submit" value="Enregistrer" name="submit">
     </form>
 
-
-    <p><input type="submit" value="Enregistrer"></p>
-</form>
 <?php
 
 $titre = "Liste des Films";
