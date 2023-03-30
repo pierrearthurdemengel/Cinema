@@ -9,7 +9,6 @@ class CinemaController
     /*lister les films */
     public function listFilms()
     {
-
         $pdo = Connect::seConnecter();
         var_dump($pdo);
         $requetelistFilms = $pdo->query("
@@ -21,17 +20,28 @@ class CinemaController
             f.synopsis, 
             f.note5, 
             f.lien_affiche, 
-            f.realisateur_id AS id_realisateur,
+            f.realisateur_id as realisateur_id,
             CONCAT(p.prenom, ' ', p.nom) AS realisateur,
-            g.id_genre,
-            g.nom_genre
-        FROM film f
+            g.id_genre as id_genre,
+            g.nom_genre as nom_genre
+        FROM 
+            film f
         JOIN realisateur r ON f.realisateur_id = r.id_realisateur
         JOIN appartenir a ON f.id_film = a.id_film
         JOIN personne p ON p.id_personne = r.personne_id
         JOIN genre g ON a.id_genre = g.id_genre;
         ");
-
+        $requeteaddReali = $pdo->query("
+        SELECT 
+            CONCAT(p.prenom, ' ', p.nom) AS realisateur,
+            id_realisateur 
+        from 
+            realisateur r
+        INNER JOIN personne p ON p.id_personne = r.personne_id
+        GROUP BY id_realisateur");
+        $requeteaddGenr = $pdo->query("SELECT nom_genre, id_genre
+        from genre g
+        ORDER BY nom_genre ASC");
         require "view/listFilms.php";
     }
 
@@ -111,13 +121,13 @@ class CinemaController
         $pdo = Connect::seConnecter();
         $requetelistCastings = $pdo->query("
         SELECT
-        id_film,
-        titre,
-        id_personne,
-        id_acteur,
-        CONCAT(p.prenom, ' ', p.nom) AS acteur,
-        id_role,
-        nom_role
+            id_film,
+            titre,
+            id_personne,
+            id_acteur,
+            CONCAT(p.prenom, ' ', p.nom) AS acteur,
+            id_role,
+            nom_role
 FROM
    casting c
 INNER JOIN film f ON f.id_film = c.film_id
@@ -450,14 +460,14 @@ INNER JOIN role r ON r.id_role = c.role_id
     
             $pdo = Connect::seConnecter();
 
-            $requeteRealisateur = $pdo->prepare('INSERT INTO personne VALUES (NULL, :nom, :prenom)
-            INNER JOIN realisateur r ON p.id_personne = r.personne_id');
+            $requeteRealisateur = $pdo->prepare('INSERT INTO realisateur r VALUES (NULL, :nom, :prenom)
+            INNER JOIN personne p ON p.id_personne = r.personne_id');
 
-            $requeteNomRealisateur->bindValue(':nom', $nomRealisateurs);
-            $requetePrenomRealisateur->bindValue(':prenom', $prenomRealisateurs);
+            $requeteaddNomRealisateur->bindValue(':nom', $nomRealisateurs);
+            $requeteaddPrenomRealisateur->bindValue(':prenom', $prenomRealisateurs);
   
-            $requeteNomRealisateur->execute();
-            $requetePrenomRealisateur->execute();
+            $requeteaddNomRealisateur->execute();
+            $requeteaddPrenomRealisateur->execute();
 
             header("Location: index.php?action=listFilms");
             require "view/listFilms.php";

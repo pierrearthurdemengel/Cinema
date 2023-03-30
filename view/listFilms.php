@@ -3,8 +3,8 @@
 ob_start();
 
 $films = $requetelistFilms->fetchAll();
-$realisateurs = $requeteRealisateur->fetchAll();
-$genres = $requeteGenre->fetchAll();
+$realisateurs = $requeteaddReali->fetchAll();
+$genres = $requeteaddGenr->fetchAll();
 
 
 ?>
@@ -34,7 +34,7 @@ $genres = $requeteGenre->fetchAll();
                 <td><?= $film["synopsis"] ?></td>
                 <td><?= $film["note5"] ?></td>
                 <td><img src='<?= $film["lien_affiche"] ?>'></td>
-                <td><a href="index.php?action=detailRealisateur&id=<?= $realisateurs["id_personne"] ?>"><?= $realisateurs["realisateur"] ?></a></td>
+                <td><a href="index.php?action=detailRealisateur&id=<?= $realisateurs["realisateur_id"] ?>"><?= $realisateurs["realisateur"] ?></a></td>
                 <td><a href="index.php?action=detailGenre&id=<?= $genres["id_genre"] ?>"><?= $genres["nom_genre"] ?></a></td>
             </tr>
         <?php } ?>
