@@ -29,7 +29,7 @@ $roles = $requeteRole->fetchAll();
 </table>
 
 <!-- Formulaire : -->
-<form action="index.php?action=addCasting" method="post" ;>
+<form action="index.php?action=addCasting" method="post">
 
     <p>
         <label for="titre"> Titre </label>

@@ -435,26 +435,25 @@ class CinemaController
     {
         if (isset($_POST["submit"])) {
 
-            $addTitre = filter_input("POST", "titre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $addActeur = filter_input("POST", "acteur", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $addRole = filter_input("POST", "role", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $addTitre = filter_input(INPUT_POST, "titre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $addActeur = filter_input(INPUT_POST, "acteur", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $addRole = filter_input(INPUT_POST, "role", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 
             if ($addTitre && $addActeur && $addRole) {
 
                 $pdo = Connect::seConnecter();
 
-                $requeteaddRole = $pdo->prepare('INSERT INTO casting (id_film, id_acteur, id_role) VALUES 
-            ( :id_film, :id_acteur, :id_role)');
+                $requeteaddRole = $pdo->prepare('INSERT INTO casting (film_id, acteur_id, role_id) VALUES 
+            ( :film_id, :acteur_id, :role_id)');
 
                 $requeteaddRole->execute(
                     [
-                        "id_film" => $addTitre,
-                        "id_acteur" => $addActeur,
-                        "id_role" => $addRole,
+                        "film_id" => $addTitre,
+                        "acteur_id" => $addActeur,
+                        "role_id" => $addRole,
                     ]
                 );
-
 
                 header("Location: index.php?action=listCastings");
 
