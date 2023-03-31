@@ -330,7 +330,7 @@ class CinemaController
     {
         if (isset($_POST["submit"])) {
 
-            $addgenre = filter_input("POST", "nom_genre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $addgenre = filter_input(INPUT_POST, "nom_genre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             if ($addgenre) {
                 $pdo = Connect::seConnecter();
@@ -348,7 +348,7 @@ class CinemaController
     public function addRole()
     {
         if (isset($_POST["submit"])) {
-            $addRole = filter_input("POST", "nom_role", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $addRole = filter_input(INPUT_POST, "nom_role", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             if ($addRole) {
                 $pdo = Connect::seConnecter();
