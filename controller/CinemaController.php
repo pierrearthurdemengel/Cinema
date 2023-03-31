@@ -402,10 +402,10 @@ class CinemaController
     public function addRealisateur()
     {
         if (isset($_POST["submit"])) {
-            $addNom = filter_input("POST", "nom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $addPrenom = filter_input("POST", "prenom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $addSexe = filter_input("POST", "sexe", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $addDateNaiss = filter_input("POST", "date_naissance", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $addNom = filter_input(INPUT_POST, "nom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $addPrenom = filter_input(INPUT_POST, "prenom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $addSexe = filter_input(INPUT_POST, "sexe", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $addDateNaiss = filter_input(INPUT_POST, "date_naissance", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             if ($addNom && $addPrenom && $addSexe && $addDateNaiss) {
                 $pdo = Connect::seConnecter();
