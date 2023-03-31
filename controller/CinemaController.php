@@ -465,13 +465,14 @@ class CinemaController
     {
         if (isset($_POST["submit"])) {
             
-            $addTitre = filter_input("INPUT_POST", "titre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $addAnnee = filter_input("INPUT_POST", "annee", FILTER_SANITIZE_NUMBER_INT);
-            $addDuree = filter_input("INPUT_POST", "duree_format", FILTER_SANITIZE_NUMBER_INT);
-            $addSynopsis = filter_input("INPUT_POST", "synopsis", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $addNote5 = filter_input("INPUT_POST", "note5", FILTER_SANITIZE_NUMBER_INT);
-            $addLien_affiche = filter_input("INPUT_POST", "lien_affiche", FILTER_SANITIZE_URL);
-            $realisateur_id = filter_input("INPUT_POST", "realisateur", FILTER_SANITIZE_NUMBER_INT);
+            $addTitre = filter_input(INPUT_POST, "titre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $addAnnee = filter_input(INPUT_POST, "annee", FILTER_SANITIZE_NUMBER_INT);
+            $addDuree = filter_input(INPUT_POST, "duree_format", FILTER_SANITIZE_NUMBER_INT);
+            $addSynopsis = filter_input(INPUT_POST, "synopsis", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $addNote5 = filter_input(INPUT_POST, "note5", FILTER_SANITIZE_NUMBER_INT);
+            $addLien_affiche = filter_input(INPUT_POST, "lien_affiche", FILTER_SANITIZE_URL);
+            $realisateur_id = filter_input(INPUT_POST, "realisateur", FILTER_SANITIZE_NUMBER_INT);
+            
             
             if ($addTitre && $addAnnee && $addDuree && $addSynopsis && $addNote5 && $addLien_affiche && $realisateur_id) {
                 
