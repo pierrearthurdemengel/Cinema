@@ -44,9 +44,14 @@ class CinemaController
         ");
 
 
-        $requeteGenr = $pdo->query("SELECT id_genre, nom_genre 
-        from genre
-        ORDER BY nom_genre");
+        $requeteGenre = $pdo->query("SELECT 
+            nom_genre,
+            id_genre 
+        from 
+            genre g
+        ORDER BY nom_genre;
+        ");
+
         require "view/listFilms.php";
     }
 
@@ -456,14 +461,13 @@ class CinemaController
                 );
 
                 header("Location: index.php?action=listCastings");
-
             }
         }
     }
     public function addFilm()
     {
         if (isset($_POST["submit"])) {
-            
+
             $addTitre = filter_input(INPUT_POST, "titre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $addAnnee = filter_input(INPUT_POST, "annee", FILTER_SANITIZE_NUMBER_INT);
             $addDuree = filter_input(INPUT_POST, "duree_format", FILTER_SANITIZE_NUMBER_INT);
@@ -471,10 +475,10 @@ class CinemaController
             $addNote5 = filter_input(INPUT_POST, "note5", FILTER_SANITIZE_NUMBER_INT);
             $addLien_affiche = filter_input(INPUT_POST, "lien_affiche", FILTER_SANITIZE_URL);
             $realisateur_id = filter_input(INPUT_POST, "realisateur", FILTER_SANITIZE_NUMBER_INT);
-            
-            
+            $id_genre = filter_input(INPUT_POST, "id_genre", FILTER_SANITIZE_NUMBER_INT);
+
             if ($addTitre && $addAnnee && $addDuree && $addSynopsis && $addNote5 && $addLien_affiche && $realisateur_id) {
-                
+
                 $pdo = Connect::seConnecter();
                 $requeteaddFilm = $pdo->prepare('INSERT INTO film 
                 (titre, annee, duree, synopsis, note5, lien_affiche, realisateur_id)
@@ -492,43 +496,24 @@ class CinemaController
                     ]
                 );
 
+                $film_id = $pdo->lastInsertId(); // Récupérer l'ID du film ajouté
+
+                // Ensuite, ajoutez une ligne à la table "appartenir" avec l'ID du genre et l'ID du film correspondants
+                $requeteaddAppartenir = $pdo->prepare('INSERT INTO appartenir 
+                (id_film, id_genre)
+                VALUES ( :id_film, :id_genre)');
+
+                $requeteaddAppartenir->execute(
+                    [
+                        "id_film" => $film_id,
+                        "id_genre" => $id_genre
+                    ]
+                );
+
                 header("Location: index.php?action=listFilms");
             }
         }
-
     }
 
-// public function addGenreFilm()
-// {
-//     if (isset($_POST["submit"])) {
-//         $genres = $_POST["nom_genre"];
 
-//         $pdo = Connect::seConnecter();
-//         $requeteGenre = $pdo->prepare('INSERT INTO genre (nom_genre) 
-//     VALUES (:nom_genre)');
-
-// $requeteGenre = $pdo->prepare('INSERT INTO genre VALUES (NULL, :nom_genre)');
-//         $requeteAddGenre->execute(
-//             [
-//                 "nom_genre" => $nom_genre
-//             ]
-//         );
-
-//         $genre_id = $pdo->lastInsertId();
-
-//         $requeteAddAppartenir = $pdo->prepare("INSERT INTO appartenir (id_film) VALUES (:id_film");
-//         $requeteAddAppartenir->execute(
-//             [
-//                 "id_film" => $id_film
-//             ]
-//         );
-
-
-//         header("Location: index.php?action=listFilms");
-//         require "view/listFilms.php";
-//     }
-// }
-
-
-}
-;
+};
