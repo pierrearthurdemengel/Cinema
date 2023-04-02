@@ -498,7 +498,6 @@ class CinemaController
 
                 $film_id = $pdo->lastInsertId(); // Récupérer l'ID du film ajouté
 
-                // Ensuite, ajoutez une ligne à la table "appartenir" avec l'ID du genre et l'ID du film correspondants
                 $requeteaddAppartenir = $pdo->prepare('INSERT INTO appartenir 
                 (id_film, id_genre)
                 VALUES ( :id_film, :id_genre)');
